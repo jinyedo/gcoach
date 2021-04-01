@@ -1,0 +1,247 @@
+body {
+  margin: 0 auto;
+  max-width: 720px;
+  max-height: 1890px;
+}
+
+#wrap {
+  margin: 70px 65px 73px 64px;
+}
+
+.main_container .main_text {
+  text-align: center;
+}
+
+.main_container img {
+  width: 164px;
+  height: 32px;
+}
+
+.signup_container {
+  margin: 115px 0 0 0;
+}
+
+.signup_container .signup_title .text_box p {
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.signup_container .signup {
+  margin-top: 107px;
+}
+
+.signup_container .signup .id_title p {
+  font-size: 30px;
+}
+
+.signup_container .signup .id_box {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  margin-bottom: 88px;
+}
+
+.signup_container .signup input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.signup_container .signup .id_box .input_1 {
+  padding: 30px 0 10px 0px;
+  border: none;
+  width: 60%;
+  font-size: 34px;
+}
+
+.signup_container .signup .id_box .submit_1 {
+  border-radius: 10px;
+  background-color: #55576f;
+  border: none;
+  cursor: pointer;
+  padding: 9px 43px 8px 39px;
+  font-size: 28px;
+  color: #fff;
+  width: 39%;
+}
+
+.signup_container .signup .pw_box {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  margin-bottom: 88px;
+}
+
+.signup_container .signup .pw_box .input_1 {
+  padding: 30px 0 10px 0px;
+  border: none;
+  width: 100%;
+  font-size: 34px;
+}
+
+.signup_container .signup .pw_title p {
+  font-size: 30px;
+}
+
+.signup_container .signup .pwCheck_box .input_1 {
+  padding: 30px 0 10px 0px;
+  border: none;
+  width: 100%;
+  font-size: 34px;
+}
+
+.signup_container .signup .pwCheck_box {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  margin-bottom: 103px;
+}
+
+.signup_container .signup .pwCheck_title p {
+  font-size: 30px;
+}
+
+.signup_container .signup .name_title p {
+  font-size: 30px;
+}
+
+.signup_container .signup .name_box {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  margin-bottom: 105px;
+}
+
+.signup_container .signup .name_box .input_1 {
+  padding: 30px 0 10px 0px;
+  border: none;
+  width: 100%;
+  font-size: 34px;
+}
+
+.signup_container .signup .phone_title p {
+  font-size: 30px;
+}
+
+.signup_container .signup .phone_box {
+  margin-right: 17px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  width: 62%;
+  float: left;
+}
+
+.signup_container .signup .phone_box .input_1 {
+  padding: 30px 0 10px 0px;
+  border: none;
+  width: 100%;
+  font-size: 34px;
+}
+
+.signup_container .signup .phoneSubmit_box {
+  padding-top: 10px;
+}
+
+.signup_container .signup .phoneSubmit_box .submit_2 {
+  border-radius: 10px;
+  background-color: #55576f;
+  border: none;
+  cursor: pointer;
+  padding: 17px 21px 16px 20px;
+  font-size: 28px;
+  color: #fff;
+  width: 35%;
+}
+
+.signup_container .signup .certification_box {
+  margin-right: 17px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  width: 62%;
+  float: left;
+}
+
+.signup_container .signup .certification_box .input_1 {
+  padding: 30px 0 10px 0px;
+  border: none;
+  width: 100%;
+  font-size: 34px;
+}
+
+.signup_container .signup .certificationSubmit_box {
+  padding-top: 10px;
+}
+
+.signup_container .signup .certificationSubmit_box .submit_2 {
+  border-radius: 10px;
+  background-color: #55576f;
+  border: none;
+  cursor: pointer;
+  padding: 17px 21px 16px 20px;
+  font-size: 28px;
+  color: #fff;
+  width: 35%;
+}
+
+.signup_container .signup .phoneBox_2 {
+  margin-top: 46px;
+}
+
+.signup_container .signup .address_title {
+  margin-top: 104px;
+}
+
+.signup_container .signup .address_title p {
+  font-size: 30px;
+}
+
+.signup_container .signup .address_box .addressSelect_box {
+  margin-top: 17px;
+  float: left;
+  width: 40%;
+}
+
+.signup_container .signup .address_box .addressSelect_box select {
+  width: 100%;
+  height: 55px;
+  border-radius: 10px;
+  border: solid 1px #0e0e18;
+  opacity: 1;
+  font-size: 28px;
+  padding-left: 36px;
+  padding-top: 4px;
+}
+
+.signup_container .signup .address_box .addressInput_box {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  padding-bottom: 5px;
+}
+
+.signup_container .signup .address_box .addressInput_box input {
+  margin-top: 25px;
+  margin-left: 7px;
+  font-size: 34px;
+  width: 58%;
+  border: none;
+}
+
+.signup_container .signup .nextprev_box {
+  margin-top: 168px;
+}
+
+.signup_container .signup .nextprev_box .prev_box {
+  float: left;
+}
+
+.signup_container .signup .nextprev_box .prev_box .prevbtn {
+  border-radius: 10px;
+  background-color: #55576f;
+  border: none;
+  cursor: pointer;
+  padding: 18px 52px 15px 50px;
+  font-size: 30px;
+  color: #fff;
+  margin-right: 267px;
+}
+
+.signup_container .signup .nextprev_box .next_box .nextbtn {
+  border-radius: 10px;
+  background-color: #55576f;
+  border: none;
+  cursor: pointer;
+  padding: 18px 52px 15px 50px;
+  font-size: 30px;
+  color: #fff;
+}

@@ -1,0 +1,41 @@
+/***main page header***/
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8%;
+    padding: 0px 18px 14px 14px;
+}
+
+.main-header__left span {
+    margin-right: 10px;
+}
+
+.main-header__left i {
+    font-size: 28px;
+}
+
+.main-header__left img {
+    width: 107px;
+    height: 21px;
+}
+
+.main-header__right i {
+    font-size: 28px;
+}
+
+/***serve page header***/
+.page-header {
+    margin-top: 58px;
+    background-color: #55576f;
+    height: 100px;
+    display: block;
+    align-items: center;
+    color: #fff;
+    font-size: 40px;
+    line-height: 100px;
+}
+
+.page-header i {
+    padding-left: 57px;
+}

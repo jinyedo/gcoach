@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, 
+  maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/join.css" />
+    <title>회원가입</title>
+  </head>
+  <body>
+    <div id="wrap">
+      <div class="main_container">
+        <div class="main_text">
+          <img src="/images/logo.png" />
+        </div>
+      </div>
+      <div class="signup_container">
+        <div class="signup_title">
+          <div class="text_box">
+            <p>회원가입</p>
+          </div>
+        </div>
+        <form class="signup" id="login-form" th:method="POST" th:action="@{/join}">
+          <fieldset>
+            <div class="id_title">
+              <p>아이디</p>
+            </div>
+            <div class="id_box">
+              <input type="text" class="input_1" name="username" placeholder="abcdefg" />
+              <input type="submit" class="submit_1" value="아이디 중복" />
+            </div>
+            <div class="pw_title">
+              <p>비밀번호</p>
+            </div>
+            <div class="pw_box">
+              <input type="text" class="input_1" name="password" placeholder="영문, 숫자, 특수문자"/>
+            </div>
+            <div class="pwCheck_title">
+              <p>비밀번호 확인</p>
+            </div>
+            <div class="pwCheck_box">
+              <input type="text" class="input_1" placeholder="영문, 숫자, 특수문자"/>
+            </div>
+            <div class="name_title">
+              <p>이름</p>
+            </div>
+            <div class="name_box">
+              <input type="text" class="input_1" name="name" placeholder="홍길동" />
+            </div>
+            <div class="phone_title">
+              <p>전화번호</p>
+            </div>
+            <div class="phoneBox_1">
+              <div class="phone_box">
+                <input type="text" class="input_1" placeholder="010-1234-5678"/>
+              </div>
+              <div class="phoneSubmit_box">
+                <input type="submit" class="submit_2" value="인증번호 발송" />
+              </div>
+            </div>
+            <div class="phoneBox_2">
+              <div class="certification_box">
+                <input type="text" class="input_1" placeholder="인증 번호" />
+              </div>
+              <div class="certificationSubmit_box">
+                <input type="submit" class="submit_2" value="인증 확인" />
+              </div>
+            </div>
+          </fieldset>
+          <input type="submit" value="회원가입">
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
