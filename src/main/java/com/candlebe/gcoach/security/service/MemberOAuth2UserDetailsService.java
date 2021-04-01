@@ -7,6 +7,7 @@ import com.candlebe.gcoach.security.dto.AuthMemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 public class MemberOAuth2UserDetailsService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // 소셜 로그인한 사용자의 정보 받아오기
     @Override
@@ -47,14 +48,14 @@ public class MemberOAuth2UserDetailsService extends DefaultOAuth2UserService {
         });
         log.info("--------------------");
 
-        String username = null;
+        String email = null;
 
         if (clientName.equals("Google")) {
-            username = oAuth2User.getAttribute("username");
+            email = oAuth2User.getAttribute("email");
         }
-        log.info("EMAIL : " + username);
+        log.info("EMAIL : " + email);
 
-        Member member = saveSocialMember(username, clientName);
+        Member member = saveSocialMember(email, clientName);
 
         AuthMemberDTO authMemberDTO = new AuthMemberDTO(
                 member.getUsername(),
@@ -83,8 +84,8 @@ public class MemberOAuth2UserDetailsService extends DefaultOAuth2UserService {
 
         Member member = Member.builder()
                 .username(username)
-                .name(username)
                 .password(passwordEncoder.encode("1111"))
+                .name(username)
                 .formSocial(true)
                 .socialType(socialType)
                 .build();
