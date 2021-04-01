@@ -1,21 +1,13 @@
-package com.candlebe.gcoach.entity;
+package com.candlebe.gcoach.dto;
 
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
-@Entity
+@Data
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@ToString
-public class Member extends BaseEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class MemberDTO {
     private Long mid;
 
     private String username; // 아이디
@@ -35,12 +27,4 @@ public class Member extends BaseEntity{
     private String emotion; // 감정
 
     private String interest; // 관심사
-
-    @ElementCollection(fetch = FetchType.LAZY)
-    @Builder.Default
-    private Set<MemberRole> roleSet = new HashSet<>(); // 권한
-
-    public void addMemberRole(MemberRole memberRole) {
-        roleSet.add(memberRole);
-    }
 }
