@@ -4,10 +4,15 @@ import com.candlebe.gcoach.dto.MemberDTO;
 import com.candlebe.gcoach.entity.Member;
 import com.candlebe.gcoach.entity.MemberRole;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.Errors;
+
+import java.util.Map;
 
 public interface JoinService {
 
-    final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    Map<String, String> validateHandling(Errors errors);
 
     String join(MemberDTO memberDTO);
 
