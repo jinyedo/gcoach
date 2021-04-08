@@ -7,11 +7,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.http.HttpRequest;
 import java.util.Map;
 
 @Controller
@@ -31,6 +33,15 @@ public class GcoachController {
         log.info("login..........");
     }
 
+    @RequestMapping("/checkUsername")
+    @ResponseBody
+    public String checkUsername(MemberDTO memberDTO) {
+        log.info("checkUsername : " + memberDTO.getUsername());
+        String result = joinService.checkUsername(memberDTO);
+        log.info(result);
+        return result;
+    }
+
     @GetMapping("/join")
     public String join(MemberDTO memberDTO) {
         log.info("join..........");
@@ -40,24 +51,30 @@ public class GcoachController {
     @PostMapping("/join")
     public String join(@Valid MemberDTO memberDTO, Errors errors, Model model, RedirectAttributes redirectAttributes) {
         log.info("----------회원가입----------");
-        log.info("회원정보 : " + memberDTO);
+        log.info("아이디 : " + memberDTO.getUsername());
+        log.info("비밀번호 : " + memberDTO.getPassword());
+        log.info("비밀번호 확인 : " + memberDTO.getConfirmPassword());
+        log.info("이름 : " + memberDTO.getName());
+        log.info("휴대폰 : " + memberDTO.getPhone());
+
         if (errors.hasErrors()) {
             // 회원가입 실패시, 입력 데이터를 유지
             model.addAttribute("memberDTO", memberDTO);
 
-            // 유효성 통과 못한 필드와 메시지를 핸들링
-            Map<String, String> validatorResult = joinService.validateHandling(errors);
-            for (String key : validatorResult.keySet()) {
-                model.addAttribute(key, validatorResult.get(key));
+            log.info("-----유효성 검사 오류 종류-----");
+            for (FieldError error : errors.getFieldErrors()) {
+                log.info(String.format("valid_%s", error.getField()) + " : " + error.getDefaultMessage());
             }
+            log.info("----------------------------");
 
             return "/join";
         }
 
         String result = joinService.join(memberDTO);
         if (result.equals("fail")) {
-            redirectAttributes.addFlashAttribute("msg", "회원가입 실패");
-            return "redirect:/login";
+            model.addAttribute("memberDTO", memberDTO);
+            model.addAttribute("msg", memberDTO.getUsername() + "은 이미 존재하는 아이디입니다.");
+            return "/join";
         } else if (result.equals("success")) {
             redirectAttributes.addFlashAttribute("msg", "회원가입 성공");
             return "redirect:/login";

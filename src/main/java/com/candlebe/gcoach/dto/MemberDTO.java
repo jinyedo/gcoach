@@ -2,34 +2,43 @@ package com.candlebe.gcoach.dto;
 
 import lombok.*;
 
+import javax.validation.ConstraintViolation;
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import javax.validation.constraints.*;
+import java.util.Set;
 
 @Data
 @ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberDTO {
+public class MemberDTO{
     private Long mid;
 
-    @NotBlank(message = "아이디를 입력해주세요.")
-    @Size(min = 6, max = 12, message = "아이디는 6자 이상 12자 이하로 입력해주세요.")
+    @NotBlank
+    @Pattern(regexp = "[A-za-z0-9]{6,18}", message = "올바른 형식의 아이디를 입력해주세요.")
     private String username; // 아이디
 
-    @NotBlank(message = "비밀번호를 입력해주세요.")
-    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}",
-            message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
+    @NotBlank(message = "비밀번호는 필수 입력 정보입니다.")
+    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}", message = "올바른 형식의 비밀번호를 입력해주세요.")
     private String password; // 비밀번호
 
-    @NotBlank(message = "이름을 입력해주세요.")
-    @Size(min = 2, max = 8, message = "이름을 2~8자 사이로 입력해주세요.")
+    @NotBlank(message = "비밀번호 확인은 필수 입력정보 입니다.")
+    private String confirmPassword; // 비밀번호 확인
+
+    @AssertTrue(message = "비밀번호가 일치하지 않습니다.")
+    private boolean checkPassword = false;
+
+    @NotBlank(message = "이름은 필수 입력정보 입니다.")
+    @Pattern(regexp = "[가-힣]{2,6}", message = "올바른 형식의 이름을 입력해주세요.")
     private String name; // 이름
 
     private String nickname; // 닉네임
 
-    @NotBlank(message = "휴대폰 번호를 입력해주세요.")
-    @NotNull(message = "휴대폰 번호를 입력해주세요.")
-    @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
+    @NotBlank(message = "휴대폰 번호는 필수 입력정보 입니다.")
+    @Pattern(regexp = "01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})", message = "올바른 형식의 휴대폰 번호를 입력해주세요.")
     private String phone; // 전화번호
 
     private boolean formSocial; // 소셜 로그인 유무
@@ -39,4 +48,19 @@ public class MemberDTO {
     private String emotion; // 감정
 
     private String interest; // 관심사
+
+//    public boolean setCheckPassword() {
+//        try {
+//            assert password != null;
+//            if (password.equals(confirmPassword)) {
+//                System.out.println("비밀번호 동일..........");
+//                return true;
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Exception..........");
+//            return false;
+//        }
+//        System.out.println("그냥안됨..........");
+//        return false;
+//    }
 }

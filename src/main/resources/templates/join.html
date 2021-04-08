@@ -21,49 +21,219 @@
             <p>회원가입</p>
           </div>
         </div>
-        <form th:action="@{/join}" th:method="POST" class="signup" id="login-form" name="join_form" modelAttribute="memberDTO">
+        <form th:action="@{/join}" th:method="POST" th:object="${memberDTO}" class="signup" id="login-form" name="join_form" >
           <fieldset>
             <div class="id_title">
-              <p>아이디</p>
+              <p>아이디&nbsp;<span style="font-size: 16px">6~12자의 형식으로 입력해주세요</span></p>
             </div>
             <div class="id_box">
-              <input type="text" class="input_1" name="username" th:value="${memberDTO.username}" placeholder="아이디는 6자 이상 12자 이하로 입력해주세요." />
-              <input type="button" class="submit_1" value="아이디 중복" />
-              <span th:text="${valid_username}"></span>
+              <input type="text" class="input_1 username" name="username" th:value="${memberDTO.username}" onkeydown="checkSpace()" />
+              <span id="E_username" style="color: red; font-size: 16px"></span>
             </div>
             <div class="pw_title">
-              <p>비밀번호</p>
+              <p>비밀번호&nbsp;<span style="font-size: 16px">영문 숫자 특수기호가 포함된 8~20자의 형식으로 입력해주세요</span></p>
             </div>
             <div class="pw_box">
-              <input type="text" class="input_1" name="password" th:value="${memberDTO.password}" placeholder="비밀번호는 영어와 숫자로 포함해서 6~12자리 이내로 입력해주세요."/>
-              <span th:text="${valid_password}"></span>
+              <input type="text" class="input_1 password" name="password" th:value="${memberDTO.password}" onkeydown="checkSpace()" />
+              <span id="E_password" style="color: red; font-size: 16px"></span>
             </div>
             <div class="pwCheck_title">
               <p>비밀번호 확인</p>
             </div>
             <div class="pwCheck_box">
-              <input type="text" class="input_1" name="confirmPassword" placeholder="영문, 숫자, 특수문자"/>
+              <input type="text" class="input_1 confirmPassword" name="confirmPassword" onkeydown="checkSpace()" />
+              <input type="hidden" name="checkPassword" th:value="${false}">
+              <span id="E_confirmPassword" style="color: red; font-size: 16px"></span>
             </div>
             <div class="name_title">
               <p>이름</p>
             </div>
             <div class="name_box">
-              <input type="text" class="input_1" name="name" th:value="${memberDTO.name}" placeholder="이름을 입력해주세요." />
-              <span th:text="${valid_name}"></span>
+              <input type="text" class="input_1 name" name="name" th:value="${memberDTO.name}" onkeydown="checkSpace()" />
+              <span id="E_name" style="color: red; font-size: 16px"></span>
             </div>
             <div class="phone_title">
-              <p>전화번호</p>
+              <p>전화번호&nbsp;<span style="font-size: 16px">-를 제외한 형식으로 입력해주세요</span></p>
             </div>
             <div class="phoneBox_1">
               <div class="phone_box">
-                <input type="text" class="input_1" name="phone" th:value="${memberDTO.phone}" placeholder="01012345678"/>
-                <span th:text="${valid_phone}"></span>
+                <input type="text" class="input_1 phone" name="phone" th:value="${memberDTO.phone}" onkeydown="checkSpace()" />
+                <span id="E_phone" style="color: red; font-size: 16px "></span>
               </div>
             </div>
           </fieldset>
-          <input type="submit" value="회원가입">
+          <input type="button" value="회원가입" onclick="join()">
         </form>
       </div>
     </div>
+    <script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
+    <script src="jquery/jquery.min.js"></script>
+    <script th:inline="javascript">
+      // 회원가입시 오류 메시지
+      const msg = [[${msg}]];
+      if (msg !== null && msg !== "") {
+        alert(msg);
+      }
+
+      // 스페이스 입력 제한
+      function checkSpace() {
+        const kcode = event.keyCode;
+        if (kcode === 32) event.returnValue = false;
+      }
+
+      // input 가져오기
+      const join_form = document.join_form;
+      const username = join_form.username;
+      const password = join_form.password;
+      const confirmPassword = join_form.confirmPassword;
+      let checkPassword = join_form.checkPassword;
+      const name = join_form.name;
+      const phone = join_form.phone;
+
+      /* [ 유효성 검사 ] */
+      const regExp = /\s/g; // 모든 공백 체크 정규식
+      const usernameJ = /^[A-za-z0-9]{6,18}$/; // 아이디 정규식 - 영문 대문자 또는 소문자 또는 숫자로 시작하는 아이디, 길이는 5~15자, 끝날때 제한 없음
+      const pwJ = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,20}$/; // 비밀번호 정규식 - 숫자, 영문, 특수문자 1개이상 을 포함한 8~20자
+      const nameJ = /^[가-힣]{2,6}$/; // 이름 정규식 - 한글 2~6자
+      const phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/; // 휴대폰 번호 정규식 - "-" 문자를 제외한 휴대폰 번호
+
+      let usernameB = false;
+      let passwordB = false;
+      let confirmPasswordB = false;
+      let nameB = false;
+      let phoneB = false;
+
+      $('.username').blur(function () {
+        if ($(this).val() !== "" || $(this).val().length !== 0) {
+          if (usernameJ.test($(this).val())) {
+            $.ajax({
+              url: '/checkUsername',
+              type: 'POST',
+              data: {
+                "username": $(".username").val()
+              },
+              success: function (data) {
+                console.log(data)
+                if (data === "fail") {
+                  $('#E_username').text("이미 사용중인 아이디입니다.");
+                } else if (data === "success") {
+                  console.log("username : true");
+                  usernameB = true;
+                  $('#E_username').text("사용 가능한 아이디입니다.");
+                }
+              },
+              error : function(error) {
+                console.log("error : " + error);
+              }
+            })
+          } else {
+            console.log("username : false");
+            usernameB = false;
+            $('#E_username').text("올바른 형식의 아이디를 입력해주세요.");
+          }
+        } else if (username.value === "" || username.value.length !== 0) {
+          usernameB = false;
+          $('#E_username').text("필수 정보입니다.");
+        }
+      });
+
+      $('.password').blur(function () {
+        if ($(this).val() !== "" || $(this).val().length !== 0) {
+          if (pwJ.test($(this).val())) {
+            console.log("password : true");
+            passwordB = true;
+            $('#E_password').text('');
+          } else {
+            console.log("password : false");
+            passwordB = false;
+            $('#E_password').text("올바른 형식의 비밀번호를 입력해주세요.");
+          }
+        } else {
+          passwordB = false;
+          $('#E_password').text("필수 정보입니다.");
+        }
+      });
+
+      $('.confirmPassword').blur(function () {
+        if ($(this).val() !== "" || $(this).val().length !== 0)  {
+          if (pwJ.test($(this).val())) {
+            if (password.value !== "" && password.value.length !== 0 && password.value === confirmPassword.value) {
+              checkPassword.value = true;
+              confirmPasswordB = true;
+              console.log("confirmPassword : true");
+              $('#E_confirmPassword').text('');
+            } else {
+              console.log("confirmPassword : false");
+              confirmPasswordB = false;
+              $('#E_confirmPassword').text("비밀번호가 일치하지 않습니다.");
+            }
+          } else {
+            console.log("confirmPassword : false");
+            confirmPasswordB = false;
+            $('#E_confirmPassword').text("올바른 형식의 비밀번호를 입력해주세요.");
+          }
+        } else {
+          confirmPasswordB = false;
+          $('#E_confirmPassword').text("필수 정보입니다.");
+        }
+      });
+
+      $('.name').blur(function () {
+        if ($(this).val() !== "" || $(this).val().length !== 0)  {
+          if (nameJ.test($(this).val())) {
+            console.log("name : true");
+            nameB = true;
+            $('#E_name').text('');
+          } else {
+            console.log("name : false");
+            nameB = false;
+            $('#E_name').text("올바른 형식의 이름을 입력해주세요.");
+          }
+        } else {
+          nameB = false;
+          $('#E_name').text("필수 정보입니다.");
+        }
+      });
+
+      $('.phone').blur(function () {
+        if ($(this).val() !== "" || $(this).val().length !== 0) {
+          if (phoneJ.test($(this).val())) {
+            console.log("phone : true");
+            phoneB = true;
+            $('#E_phone').text('');
+          } else {
+            console.log("phone : false");
+            phoneB = false;
+            $('#E_phone').text("올바른 형식의 휴대폰 번호를 입력해주세요.");
+          }
+        } else {
+          phoneB = false;
+          $('#E_phone').text("필수 정보입니다.");
+        }
+      });
+
+      // 회원가입
+      function join() {
+        if (username.value === "" || username.value.length === 0) {
+          username.focus();
+          $('#E_username').text("필수 정보입니다.");
+        } else if (password.value === "" || password.value.length === 0) {
+          password.focus();
+          $('#E_password').text("필수 정보입니다.");
+        } else if (confirmPassword.value === "" || confirmPassword.value.length === 0) {
+          confirmPassword.focus();
+          $('#E_confirmPassword').text("필수 정보입니다.");
+        } else if (name.value === "" || name.value.length === 0) {
+          name.focus();
+          $('#E_name').text("필수 정보입니다.");
+        } else if (phone.value === "" || phone.value.length === 0) {
+          phone.focus();
+          $('#E_phone').text("필수 정보입니다.");
+        } else if (usernameB && passwordB && confirmPasswordB && nameB && phoneB) {
+          join_form.submit();
+        }
+      }
+
+    </script>
   </body>
 </html>

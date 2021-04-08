@@ -12,7 +12,7 @@ public interface JoinService {
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    Map<String, String> validateHandling(Errors errors);
+    String checkUsername(MemberDTO memberDTO);
 
     String join(MemberDTO memberDTO);
 
