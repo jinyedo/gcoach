@@ -48,19 +48,4 @@ public class MemberDTO{
     private String emotion; // 감정
 
     private String interest; // 관심사
-
-//    public boolean setCheckPassword() {
-//        try {
-//            assert password != null;
-//            if (password.equals(confirmPassword)) {
-//                System.out.println("비밀번호 동일..........");
-//                return true;
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Exception..........");
-//            return false;
-//        }
-//        System.out.println("그냥안됨..........");
-//        return false;
-//    }
 }
