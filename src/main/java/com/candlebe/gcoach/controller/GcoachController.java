@@ -25,8 +25,13 @@ public class GcoachController {
     }
 
     @GetMapping("/login")
-    public void login() {
-        log.info("login..........");
+    public void getLogin() {
+        log.info("getLogin..........");
+    }
+
+    @PostMapping("/login")
+    public void postLogin() {
+        log.info("postLogin..........");
     }
 
     @RequestMapping("/checkUsername")
