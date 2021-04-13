@@ -5,9 +5,10 @@
 @import "login.css";
 @import "find.css";
 @import "join.css";
-/*@import "login_s.css";*/
 @import "main.css";
 @import "choice.css";
+@import "start.css";
+@import "play.css";
 
 
 /***component***/
@@ -33,3 +34,8 @@ a {
     margin-right: 18px;
 }
 
+.serve-screen__category {
+    margin-top: 40px;
+    margin-left: 18px;
+    margin-right: 18px;
+}

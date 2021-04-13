@@ -13,6 +13,7 @@
 
 .main-header__left i {
     font-size: 28px;
+    cursor: pointer;
 }
 
 .main-header__left img {
@@ -22,6 +23,7 @@
 
 .main-header__right i {
     font-size: 28px;
+    cursor: pointer;
 }
 
 /***serve page header***/
@@ -38,4 +40,32 @@
 
 .page-header i {
     padding-left: 57px;
+}
+
+/***play page header***/
+.play-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8%;
+    padding: 0px 18px 14px 14px;
+    z-index: 100;
+    /* position: fixed; */
+}
+
+.play-header__left span {
+    margin-right: 10px;
+}
+
+.play-header__left i {
+    font-size: 28px;
+}
+
+.play-header__left img {
+    width: 107px;
+    height: 21px;
+}
+
+.play-header__right i {
+    font-size: 28px;
 }

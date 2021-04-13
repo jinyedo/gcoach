@@ -1,0 +1,39 @@
+.main-header__right input {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.main-header__right input::placeholder {
+    color: rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+}
+
+.main-header__right input {
+    display: none;
+}
+
+.search {
+    width: 50%;
+    margin-left: 50%;
+    margin-bottom: 10px;
+    z-index: 100;
+}
+
+.search_contanier li:first-child {
+    color: #000;
+    font-size: 16px;
+}
+
+.search_contanier li {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.search_contanier li a {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.search_contanier {
+    display: none;
+}

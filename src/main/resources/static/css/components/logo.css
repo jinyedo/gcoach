@@ -33,3 +33,11 @@
   width: 107px;
   height: 21px;
 }
+
+@media screen and (max-width: 600px) {
+  .G-COACH__title img {
+    margin: 40px 0;
+    width: 107px;
+    height: 21px;
+  }
+}

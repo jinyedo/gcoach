@@ -21,13 +21,13 @@
 }
 
 /***list***/
-#list-form {
+.list-form__column {
   display: flex;
   justify-content: space-between;
   padding-bottom: 32px;
 }
 
-#list-form input {
+.list-form__column input {
   border-radius: 10px;
   background-color: #55576f;
   color: #fff;
@@ -38,72 +38,57 @@
   border: none;
 }
 
-#list-form input:last-child {
+.list-form__column input:last-child {
   margin-right: 0px;
 }
 
-#list-form input:hover {
+.list-form__column input:hover {
   background-color: #ffd95e;
   color: #172853;
   font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
 }
 
-#list-form input:checked {
+.list-form__column input:checked {
   background-color: #ffd95e;
   color: #172853;
   font-weight: bold;
 }
 
 /***emotion***/
-#emotion-form {
+.emotion-form__column {
   display: flex;
   justify-content: space-between;
   margin: 0px 50px;
   padding-bottom: 32px;
 }
 
-#emotion-form input {
+.emotion-form__column button:hover {
+  background-color: #ffd95e;
+  color: #172853;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.emotion-form__column button {
   border-radius: 10px;
   background-color: #55576f;
   color: #fff;
   width: 50%;
   min-width: 60px;
-  height: 64px;
+  height: 100px;
   cursor: pointer;
   border: none;
   margin: 0px 15px;
 }
 
-#emotion-form input:hover {
-  background-color: #ffd95e;
-  color: #172853;
-  font-weight: bold;
+.emotion-form__column i {
+  font-size: 34px;
 }
 
-/***emotion2***/
-#emotion-form {
-  display: flex;
-  justify-content: space-between;
-  margin: 0px 50px;
-  padding-bottom: 32px;
-}
-
-#emotion-form input {
-  border-radius: 10px;
-  background-color: #55576f;
-  color: #fff;
-  width: 50%;
-  min-width: 60px;
-  height: 64px;
-  cursor: pointer;
-  border: none;
-  margin: 0px 15px;
-}
-
-#emotion-form input:hover {
-  background-color: #ffd95e;
-  color: #172853;
-  font-weight: bold;
+.emotion-form__column p {
+  padding-top: 8px;
+  font-size: 14px;
 }
 
 /***button***/
