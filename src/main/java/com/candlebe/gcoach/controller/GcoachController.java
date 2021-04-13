@@ -44,13 +44,14 @@ public class GcoachController {
     }
 
     @GetMapping("/join")
-    public String join(MemberDTO memberDTO) {
-        log.info("join..........");
+    public String getJoin(MemberDTO memberDTO) {
+        log.info("getJoin..........");
         return "/join";
     }
 
     @PostMapping("/join")
-    public String join(@Valid MemberDTO memberDTO, Errors errors, Model model, RedirectAttributes redirectAttributes) {
+    public String postJoin(@Valid MemberDTO memberDTO, Errors errors, Model model, RedirectAttributes redirectAttributes) {
+        log.info("postJoin..........");
         log.info("----------회원가입----------");
         log.info("회원정보 : " + memberDTO);
 
@@ -77,5 +78,10 @@ public class GcoachController {
             return "redirect:/login";
         }
         return "redirect:/login";
+    }
+
+    @GetMapping("/play")
+    public void getPlay() {
+        log.info("getPlay()..........");
     }
 }
