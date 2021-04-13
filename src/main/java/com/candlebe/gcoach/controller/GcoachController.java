@@ -52,11 +52,7 @@ public class GcoachController {
     @PostMapping("/join")
     public String join(@Valid MemberDTO memberDTO, Errors errors, Model model, RedirectAttributes redirectAttributes) {
         log.info("----------회원가입----------");
-        log.info("아이디 : " + memberDTO.getUsername());
-        log.info("비밀번호 : " + memberDTO.getPassword());
-        log.info("비밀번호 확인 : " + memberDTO.getConfirmPassword());
-        log.info("이름 : " + memberDTO.getName());
-        log.info("휴대폰 : " + memberDTO.getPhone());
+        log.info("회원정보 : " + memberDTO);
 
         if (errors.hasErrors()) {
             // 회원가입 실패시, 입력 데이터를 유지
