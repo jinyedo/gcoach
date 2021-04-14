@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="css/style.css">
     <meta charset="UTF-8">
@@ -58,32 +58,14 @@
         </div></a>
     </div>
     <div class="play-screen__container">
-        <div class="play-screen__header">
-            <span>댓글</span>
-            <a href=""><span><i class="fas fa-sort-down"></i></span></a> <!-- 댓글 더보기 버튼 -->
+        <h4>댓글</h4>
+        <div class="addReplyContainer">
+            <input type="text" class="addReply_input" name="reply">
+            <input type="button" class="addReply_btn" value="입력">
         </div>
-        <a href="#"><div class="play-screen__content"> <!-- 댓글 단 유저의 프로필로 이동 -->
-            <div class="play-screen__content-column">
-                <div class="user-comment">
-                    <img src="./images/userimage.jpg" alt="">
-                </div>
-            </div>
-            <div class="play-screen__content-column">
-                <h5 class="user-comment__nickname">닉네임</h5>
-                <h6 class="user-comment__text">유익한 내용입니드앙 ㅎㅎ</h6>
-            </div>
-        </div></a>
-        <a href="#"><div class="play-screen__content"> <!-- 댓글 단 유저의 프로필로 이동 -->
-            <div class="play-screen__content-column">
-                <div class="user-comment">
-                    <img src="./images/userimage.jpg" alt="">
-                </div>
-            </div>
-            <div class="play-screen__content-column">
-                <h5 class="user-comment__nickname">닉네임</h5>
-                <h6 class="user-comment__text">유익한 내용입니드앙 ㅎㅎ</h6>
-            </div>
-        </div></a>
+        <div class="replyList">
+            <!--댓글 영역-->
+        </div>
     </div>
 </main>
 
@@ -93,6 +75,34 @@
     <a href="#"><p class="footer__text">서비스 이용약관</p></a>
     <a href="#"><p class="footer__text">청소년 보호정책</p></a>
 </footer>
+
+<script src="jquery/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
+<script th:inline="javascript">
+    $(document).ready(function (e) {
+        const name = [[${authMemberDTO.name}]]
+        const reply = $("input[name='reply']");
+        let str = "";
+
+        $(".addReply_btn").click(function () {
+            str += `
+                <a href="#">
+                    <div class="play-screen__content">
+                        <div class="play-screen__content-column">
+                            <div class="user-comment">
+                                <img src="./images/userimage.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="play-screen__content-column">
+                            <h5 class="user-comment__nickname">${name}</h5>
+                            <h6 class="user-comment__text">${reply.val()}</h6>
+                        </div>
+                    </div>
+                </a>
+            `;
+            $(".replyList").html(str);
+        })
+    })
+</script>
 </body>
 </html>

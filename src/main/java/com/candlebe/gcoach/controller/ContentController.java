@@ -31,22 +31,17 @@ public class ContentController {
         // 확장자 확인
         String[] filenameSeparate = contentName.split("\\.");
         log.info("파일 확장자 확인 : " + Arrays.toString(filenameSeparate));
-        String exp;
 
-        if (filenameSeparate.length <= 1) {
-            // 확장자 에러
-            throw new RuntimeException("Wrong file name. You need to include expend file name");
-        } else {
-            exp = filenameSeparate[1];
-        }
+        // 확장자 명이 없거나 mp3 형식이 아니라면 예외 발생
+        if (filenameSeparate.length <= 1 || !filenameSeparate[1].equals("mp3")) throw new RuntimeException("ERROR!!! 파일 형식 오류");
 
-        // Progressbar 에서 특정 위치를 클릭하거나 해서 임의 위치의 내용을 요청할 수 있으므로
-        // 파일의 임의의 위치에서 읽어오기 위해 RandomAccessFile 클래스를 사용한다.
         // 해당 파일이 없을 경우 예외 발생
         File file = new File(path + contentName);
         log.info("file : " + file);
         if (!file.exists()) throw new FileNotFoundException();
 
+        // Progressbar 에서 특정 위치를 클릭하거나 해서 임의 위치의 내용을 요청할 수 있으므로
+        // 파일의 임의의 위치에서 읽어오기 위해 RandomAccessFile 클래스를 사용한다.
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
         long rangeStart = 0;    // 요청 범위의 시작 위치
         long rangeEnd = 0;      // 요청 범위의 끝 위치
@@ -61,7 +56,7 @@ public class ContentController {
             String range = request.getHeader("range");
 
             // 브라우저에 따라 range 형식이 다른데, 기본 형식은 "bytes={start}-{end}" 형식이다.
-            // range 가 null 이거나, reqStart 가 0이고 end 가 없을 경우 전체 요청이다.
+            // range 가 null 이거나, rangeStart 가 0이고 end 가 없을 경우 전체 요청이다.
             // 요청 범위를 구한다.
             if (range != null) {
                 // 처리의 편의를 위해 요청 range 에 end 값이 없을 경우 넣어줌
@@ -73,8 +68,9 @@ public class ContentController {
                 rangeEnd = Long.parseLong(range.substring(idxm+1));
                 if (rangeStart > 0) { isPart = true; }
             } else {
-                //range가 null인 경우 동영상 전체 크기로 초기값을 넣어줌. 0부터 시작하므로 -1
-                rangeStart = 0; rangeEnd = contentSize - 1;
+                // range 가 null 인 경우 동영상 전체 크기로 초기값을 넣어줌. 0부터 시작하므로 -1
+                rangeStart = 0;
+                rangeEnd = contentSize - 1;
             }
             // 전송 파일 크기
             long partSize = rangeEnd - rangeStart + 1;
@@ -97,7 +93,8 @@ public class ContentController {
             int bufferSize = 8*1024;
             byte[] buf = new byte[bufferSize];
             do {
-                int block = partSize > bufferSize ? bufferSize : (int)partSize; int len = randomAccessFile.read(buf, 0, block) ;
+                int block = partSize > bufferSize ? bufferSize : (int)partSize;
+                int len = randomAccessFile.read(buf, 0, block);
                 out.write(buf, 0, len); partSize -= block; }
             while(partSize > 0);
         }catch(IOException e) {

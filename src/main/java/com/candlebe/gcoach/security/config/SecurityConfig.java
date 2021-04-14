@@ -47,15 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .failureUrl("/login") // 인가/인증에 문제시 로그인 화면으로 이동
                 .defaultSuccessUrl("/test", true)
-                .failureHandler(failureHandler())
-                .successHandler(loginSuccessHandler());
+                .failureHandler(failureHandler());
+                //.successHandler(loginSuccessHandler());
 
         // 소셜 로그인
         http.oauth2Login()// 로그인 시에 OAuth 를 사용한 로그인이 가능하도록
                 .loginPage("/login")
                 .failureUrl("/login") // 인가/인증에 문제시 로그인 화면으로 이동
-                .defaultSuccessUrl("/test", true)
-                .successHandler(loginSuccessHandler());
+                .defaultSuccessUrl("/test", true);
+//                .successHandler(loginSuccessHandler());
 
         http.csrf().disable(); // CSRF 토큰을 발해하지 않도록 지정
         http.logout(); // 로그아웃 설정

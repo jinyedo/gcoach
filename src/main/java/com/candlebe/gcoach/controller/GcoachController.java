@@ -1,9 +1,13 @@
 package com.candlebe.gcoach.controller;
 
 import com.candlebe.gcoach.dto.MemberDTO;
+import com.candlebe.gcoach.security.dto.AuthMemberDTO;
 import com.candlebe.gcoach.service.JoinService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -20,7 +24,7 @@ public class GcoachController {
     private final JoinService joinService;
 
     @GetMapping("/test")
-    public void testPage(){
+    public void testPage() {
         log.info("testPage..........");
     }
 
@@ -81,7 +85,9 @@ public class GcoachController {
     }
 
     @GetMapping("/play")
-    public void getPlay() {
+    public void getPlay(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) throws JsonProcessingException {
         log.info("getPlay()..........");
+        log.info(authMemberDTO);
+        model.addAttribute("authMemberDTO", authMemberDTO);
     }
 }
