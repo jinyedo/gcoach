@@ -1,13 +1,7 @@
 package com.candlebe.gcoach.dto;
 
 import lombok.*;
-
-import javax.validation.ConstraintViolation;
-
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import javax.validation.constraints.*;
-import java.util.Set;
 
 @Data
 @ToString
@@ -28,6 +22,7 @@ public class MemberDTO{
     @NotBlank(message = "비밀번호 확인은 필수 입력정보 입니다.")
     private String confirmPassword; // 비밀번호 확인
 
+    @Builder.Default
     @AssertTrue(message = "비밀번호가 일치하지 않습니다.")
     private boolean checkPassword = false;
 

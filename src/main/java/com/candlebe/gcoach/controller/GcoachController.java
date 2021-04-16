@@ -1,10 +1,13 @@
 package com.candlebe.gcoach.controller;
 
 import com.candlebe.gcoach.dto.MemberDTO;
+import com.candlebe.gcoach.dto.PlayDTO;
+import com.candlebe.gcoach.dto.ReplyDTO;
+import com.candlebe.gcoach.entity.Member;
+import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.security.dto.AuthMemberDTO;
 import com.candlebe.gcoach.service.JoinService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,12 +18,14 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @Log4j2
 @RequiredArgsConstructor
 public class GcoachController {
 
+    private final MemberRepository memberRepository;
     private final JoinService joinService;
 
     @GetMapping("/test")
@@ -56,7 +61,6 @@ public class GcoachController {
     @PostMapping("/join")
     public String postJoin(@Valid MemberDTO memberDTO, Errors errors, Model model, RedirectAttributes redirectAttributes) {
         log.info("postJoin..........");
-        log.info("----------회원가입----------");
         log.info("회원정보 : " + memberDTO);
 
         if (errors.hasErrors()) {
@@ -86,8 +90,39 @@ public class GcoachController {
 
     @GetMapping("/play")
     public void getPlay(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) throws JsonProcessingException {
-        log.info("getPlay()..........");
-        log.info(authMemberDTO);
-        model.addAttribute("authMemberDTO", authMemberDTO);
+        log.info("getPlay..........");
+        Optional<Member> result = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
+        if (result.isPresent()) {
+            Member member = result.get();
+            PlayDTO playDTO = PlayDTO.builder()
+                    .mid(member.getMid())
+                    .nickname(member.getNickname())
+                    .cid(1L)
+                    .contentType("asmr")
+                    .contentName("hometown.mp3")
+                    .build();
+            log.info(playDTO);
+            model.addAttribute("dto", playDTO);
+        }
+    }
+
+    public MemberDTO authMemberDtoToMemberDto(AuthMemberDTO authMemberDTO) {
+        Optional<Member> result = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
+        if (result.isPresent()) {
+            Member member = result.get();
+            return MemberDTO.builder()
+                    .mid(member.getMid())
+                    .username(member.getUsername())
+                    .password(member.getPassword())
+                    .name(member.getName())
+                    .nickname(member.getNickname())
+                    .phone(member.getPhone())
+                    .formSocial(member.isFormSocial())
+                    .socialType(member.getSocialType())
+                    .emotion(member.getEmotion())
+                    .interest(member.getInterest())
+                    .build();
+        }
+        return null;
     }
 }
