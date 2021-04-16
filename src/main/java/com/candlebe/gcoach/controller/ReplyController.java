@@ -31,7 +31,7 @@ public class ReplyController {
     // 댓글 조회 처리
     @GetMapping("/{cid}/all")
     public ResponseEntity<List<ReplyDTO>> getList(@PathVariable("cid") Long cid) {
-        log.info("----------" + cid + "번 영화 리뷰 조회----------");
+        log.info("----------" + cid + "번 콘텐츠 리뷰 조회----------");
         List<ReplyDTO> replyDTOList = replyService.getListOfReply(cid);
         return new ResponseEntity<>(replyDTOList, HttpStatus.OK);
     }
