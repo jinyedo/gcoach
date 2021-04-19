@@ -36,7 +36,7 @@ public class Member extends BaseEntity{
 
     private String interest; // 관심사
 
-//    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>(); // 권한
