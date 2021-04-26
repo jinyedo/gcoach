@@ -9,63 +9,30 @@
     <title>회원가입</title>
   </head>
   <body>
-    <div id="wrap">
-      <div class="main_container">
-        <div class="main_text">
-          <img src="/images/logo.png" />
-        </div>
-      </div>
-      <div class="signup_container">
-        <div class="signup_title">
-          <div class="text_box">
-            <p>회원가입</p>
-          </div>
-        </div>
-        <form th:action="@{/join}" th:method="POST" th:object="${memberDTO}" class="signup" id="login-form" name="join_form" >
-          <fieldset>
-            <div class="id_title">
-              <p>아이디&nbsp;<span style="font-size: 16px">영문 또는 숫자가 포함된 6~18자의 형식으로 입력해주세요</span></p>
-            </div>
-            <div class="id_box">
-              <input type="text" class="input_1 username" name="username" th:value="${memberDTO.username}" onkeydown="checkSpace()" />
-              <span id="E_username" style="font-size: 16px"></span>
-            </div>
-            <div class="pw_title">
-              <p>비밀번호&nbsp;<span style="font-size: 16px">영문 숫자 특수기호가 포함된 8~20자의 형식으로 입력해주세요</span></p>
-            </div>
-            <div class="pw_box">
-              <input type="password" class="input_1 password" name="password" th:value="${memberDTO.password}" onkeydown="checkSpace()" />
-              <span id="E_password" style="color: red; font-size: 16px"></span>
-            </div>
-            <div class="pwCheck_title">
-              <p>비밀번호 확인</p>
-            </div>
-            <div class="pwCheck_box">
-              <input type="password" class="input_1 confirmPassword" name="confirmPassword" onkeydown="checkSpace()" />
-              <input type="hidden" name="checkPassword" th:value="${false}">
-              <span id="E_confirmPassword" style="color: red; font-size: 16px"></span>
-            </div>
-            <div class="name_title">
-              <p>이름</p>
-            </div>
-            <div class="name_box">
-              <input type="text" class="input_1 name" name="name" th:value="${memberDTO.name}" onkeydown="checkSpace()" />
-              <span id="E_name" style="color: red; font-size: 16px"></span>
-            </div>
-            <div class="phone_title">
-              <p>전화번호&nbsp;<span style="font-size: 16px">-를 제외한 형식으로 입력해주세요</span></p>
-            </div>
-            <div class="phoneBox_1">
-              <div class="phone_box">
-                <input type="text" class="input_1 phone" name="phone" th:value="${memberDTO.phone}" onkeydown="checkSpace()" />
-                <span id="E_phone" style="color: red; font-size: 16px "></span>
-              </div>
-            </div>
-          </fieldset>
-          <input type="button" value="회원가입" onclick="join()">
-        </form>
-      </div>
+  <div class="G-COACH__title">
+    <img src="images/logo.png">
+  </div>
+
+  <main class="serve-screen">
+    <div class="join-form__title">
+      <h1>회원가입</h1>
     </div>
+
+    <form th:action="@{/join}" th:method="POST" th:object="${memberDTO}" class="signup" id="join-form" name="join_form" >
+      <span>아이디&nbsp;&nbsp;&nbsp;<span id="E_username" style="font-size: 16px"></span></span>
+      <input type="text" class="input_1 username" name="username" th:value="${memberDTO.username}" onkeydown="checkSpace()" placeholder="영문 또는 숫자가 포함된 6~18자의 형식으로 입력해주세요"/>
+      <span>비밀번호&nbsp;&nbsp;&nbsp;<span id="E_password" style="color: red; font-size: 16px"></span></span>
+      <input type="password" class="input_1 password" name="password" th:value="${memberDTO.password}" onkeydown="checkSpace()" placeholder="영문 숫자 특수기호가 포함된 8~20자의 형식으로 입력해주세요"/>
+      <span>비밀번호 확인&nbsp;&nbsp;&nbsp;<span id="E_confirmPassword" style="color: red; font-size: 16px"></span></span>
+      <input type="password" class="input_1 confirmPassword" name="confirmPassword" onkeydown="checkSpace()" />
+      <input type="hidden" name="checkPassword" th:value="${false}">
+      <span>이름&nbsp;&nbsp;&nbsp;<span id="E_name" style="color: red; font-size: 16px"></span></span>
+      <input type="text" class="input_1 name" name="name" th:value="${memberDTO.name}" onkeydown="checkSpace()" />
+      <span>전화번호&nbsp;&nbsp;&nbsp;<span id="E_phone" style="color: red; font-size: 16px "></span></span>
+      <input type="text" class="input_1 phone" name="phone" th:value="${memberDTO.phone}" onkeydown="checkSpace()" placeholder="-를 제외한 형식으로 입력해주세요"/>
+      <input type="button" class="submit" value="회원가입" onclick="join()">
+    </form>
+  </main>
     <script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
     <script src="jquery/jquery.min.js"></script>
     <script th:inline="javascript">
@@ -233,7 +200,6 @@
           join_form.submit();
         }
       }
-
     </script>
   </body>
 </html>

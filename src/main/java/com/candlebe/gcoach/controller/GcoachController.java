@@ -99,7 +99,7 @@ public class GcoachController {
                     .nickname(member.getNickname())
                     .cid(1L)
                     .contentType("asmr")
-                    .contentName("hometown 한글.mp3")
+                    .contentName("hometown.mp3")
                     .build();
             log.info(playDTO);
             model.addAttribute("dto", playDTO);

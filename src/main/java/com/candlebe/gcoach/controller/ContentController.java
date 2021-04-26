@@ -4,15 +4,18 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Arrays;
 
-@Controller
+@RestController
 @Log4j2
 public class ContentController {
+
     // 콘텐츠 파일 불러오기
     @GetMapping(value = "/stream/{contentType}/{contentName}")
     public String stream(
