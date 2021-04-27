@@ -100,6 +100,7 @@ public class GcoachController {
                     .cid(1L)
                     .contentType("asmr")
                     .contentName("hometown.mp3")
+                    .likeCount(0)
                     .build();
             log.info(playDTO);
             model.addAttribute("dto", playDTO);

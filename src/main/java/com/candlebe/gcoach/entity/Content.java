@@ -3,6 +3,8 @@ package com.candlebe.gcoach.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -24,4 +26,13 @@ public class Content extends BaseEntity {
     private String path;
 
     private String type;
+
+    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
+    Set<Likes> likes = new HashSet<>();
+
+    private int likeCount;
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
 }

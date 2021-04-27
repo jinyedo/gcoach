@@ -20,6 +20,7 @@ public class ContentTests {
                 .path("C:/daelim/gcoach/content/audio/asmr/hometown.mp3")
                 .title("hometown.mp3")
                 .type("asmr")
+                .likeCount(0)
                 .build();
         contentRepository.save(content);
     }

@@ -17,4 +17,6 @@ public class PlayDTO {
     private Long cid;
     private String contentName;
     private String contentType;
+
+    int likeCount;
 }

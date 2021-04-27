@@ -3,8 +3,6 @@ package com.candlebe.gcoach.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Builder
@@ -12,17 +10,15 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @ToString
-public class Reply extends BaseEntity {
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rid;
+    private Long lid;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Content content;
-
-    private String text;
+    Content content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
+    Member member;
 }
