@@ -31,7 +31,8 @@
     <div class="play-screen__container">
         <div class="play-screen__header">
             <span>연관 리스트</span>
-            <span class="play-likes"><i class="fas fa-heart fa-lg"></i>[[${dto.likeCount}]] Likes</span>
+            <span th:if="${dto.likeCheck}" class="play-likes"><i class="fas fa-heart fa-lg"></i>[[${dto.likeCount}]] Likes</span>
+            <span th:if="${!dto.likeCheck}" class="play-likes"><i class="far fa-heart fa-lg"></i>[[${dto.likeCount}]] Likes</span>
             <!-- 좋아요 카운트 ?????????? -->
         </div>
         <a href="play.html"><div class="play-screen__content">
@@ -154,9 +155,17 @@
         function updateLike(result) {
             const json = JSON.parse(result)
             console.log(json);
-            const str = `
-                <i class="fas fa-heart fa-lg"></i>${json.likeCount} Likes
-            `;
+            const likeCheck = json.likeCheck;
+            let str;
+            if (likeCheck) {
+                str = `
+                    <i class="fas fa-heart fa-lg"></i>${json.likeCount} Likes
+                `;
+            } else {
+                str = `
+                    <i class="far fa-heart fa-lg"></i>${json.likeCount} Likes
+                `;
+            }
             $(".play-likes").html(str);
         }
     })

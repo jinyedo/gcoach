@@ -28,7 +28,16 @@ public class Content extends BaseEntity {
     private String type;
 
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
-    Set<Likes> likes = new HashSet<>();
+    @Builder.Default
+    Set<Likes> likesSet = new HashSet<>();
+
+    public void addLikes(Likes likes) {
+        likesSet.add(likes);
+    }
+
+    public void deleteLikes(Likes likes) {
+        likesSet.remove(likes);
+    }
 
     private int likeCount;
 

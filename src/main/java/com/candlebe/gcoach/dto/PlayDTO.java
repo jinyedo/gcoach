@@ -19,4 +19,6 @@ public class PlayDTO {
     private String contentType;
 
     int likeCount;
+
+    boolean likeCheck;
 }

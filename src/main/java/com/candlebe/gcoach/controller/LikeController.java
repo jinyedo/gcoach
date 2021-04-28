@@ -19,9 +19,9 @@ public class LikeController {
     @PostMapping("/like")
     public String addLike(@RequestBody PlayDTO dto) {
         int likeCount = 0;
-        boolean result;
-        result = likeService.addLike(dto.getMid(), dto.getCid());
+        boolean likeCheck;
+        likeCheck = likeService.addLike(dto.getMid(), dto.getCid());
         likeCount = likeRepository.likeCount();
-        return "{\"result\":"+ result + ",\"likeCount\":" + likeCount + "}";
+        return "{\"likeCheck\":"+ likeCheck + ",\"likeCount\":" + likeCount + "}";
     }
 }

@@ -13,9 +13,11 @@ public interface LikeRepository extends JpaRepository<Likes, Long> {
     // 특정 콘텐츠에 특정 사용자가 좋아요를 등록한 적이 있는지 확인
     Optional<Likes> findByMemberAndContent(Member member, Content content);
 
-    @Query("SELECT COUNT(l) FROM Likes l")
-    int likeCount();
-
+    // 좋아요 조회
     @Query("SELECT l.lid FROM Likes l WHERE l.member = :member AND l.content = :content")
     Long findLikes(Member member, Content content);
+
+    // 좋아요 개수
+    @Query("SELECT COUNT(l) FROM Likes l")
+    int likeCount();
 }

@@ -24,19 +24,29 @@ public class LikeServiceImpl implements LikeService {
     public boolean addLike(Long mid, Long cid) {
         Member member = memberRepository.findById(mid).orElseThrow();
         Content content = contentRepository.findById(cid).orElseThrow();
-
+        int likeCount = 0;
         Likes likes = Likes.builder()
                 .member(member)
                 .content(content)
                 .build();
 
-        //중복 좋아요 방지
+        // 좋아요를 누른적이 없다면 좋아요 추가
         if(isNotAlreadyLike(member, content)) {
             likeRepository.save(likes);
+            likeCount = likeRepository.likeCount();
+            content.setLikeCount(likeCount);
+            content.addLikes(likes);
+            contentRepository.save(content);
             return true;
+
+        // 좋아요를 누른적이 있따면 좋아요 취소
         } else {
             Long lid = likeRepository.findLikes(member, content);
             likeRepository.deleteById(lid);
+            likeCount = likeRepository.likeCount();
+            content.setLikeCount(likeCount);
+            content.deleteLikes(likes);
+            contentRepository.save(content);
             return false;
         }
     }

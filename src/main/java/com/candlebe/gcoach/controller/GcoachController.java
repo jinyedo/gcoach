@@ -3,7 +3,10 @@ package com.candlebe.gcoach.controller;
 import com.candlebe.gcoach.dto.MemberDTO;
 import com.candlebe.gcoach.dto.PlayDTO;
 import com.candlebe.gcoach.dto.ReplyDTO;
+import com.candlebe.gcoach.entity.Content;
 import com.candlebe.gcoach.entity.Member;
+import com.candlebe.gcoach.repository.ContentRepository;
+import com.candlebe.gcoach.repository.LikeRepository;
 import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.security.dto.AuthMemberDTO;
 import com.candlebe.gcoach.service.JoinService;
@@ -26,6 +29,8 @@ import java.util.Optional;
 public class GcoachController {
 
     private final MemberRepository memberRepository;
+    private final ContentRepository contentRepository;
+    private final LikeRepository likeRepository;
     private final JoinService joinService;
 
     @GetMapping("/test")
@@ -91,16 +96,20 @@ public class GcoachController {
     @GetMapping("/play")
     public void getPlay(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) throws JsonProcessingException {
         log.info("getPlay..........");
-        Optional<Member> result = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
-        if (result.isPresent()) {
-            Member member = result.get();
+        Optional<Member> memberResult = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
+        Optional<Content> contentResult = contentRepository.findById(1L);
+        if (memberResult.isPresent() && contentResult.isPresent()) {
+            Member member = memberResult.get();
+            Content content = contentResult.get();
+            boolean likeCheck = likeRepository.findByMemberAndContent(member, content).isPresent();
             PlayDTO playDTO = PlayDTO.builder()
                     .mid(member.getMid())
                     .nickname(member.getNickname())
-                    .cid(1L)
-                    .contentType("asmr")
-                    .contentName("hometown.mp3")
-                    .likeCount(0)
+                    .cid(content.getCid())
+                    .contentType(content.getType())
+                    .contentName(content.getTitle())
+                    .likeCount(content.getLikeCount())
+                    .likeCheck(likeCheck)
                     .build();
             log.info(playDTO);
             model.addAttribute("dto", playDTO);
