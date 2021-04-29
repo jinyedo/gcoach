@@ -1,11 +1,14 @@
 package com.candlebe.gcoach.controller;
 
+import com.candlebe.gcoach.dto.ContentUploadDTO;
+import com.candlebe.gcoach.service.ContentService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,21 +17,42 @@ import java.util.Arrays;
 
 @RestController
 @Log4j2
+@RequiredArgsConstructor
 public class ContentController {
 
-    // 콘텐츠 파일 불러오기
-    @GetMapping(value = "/stream/{contentType}/{contentName}")
+    private final ContentService contentService;
+
+    @GetMapping("/uploadForm")
+    public String listUploadedFiles(Model model) throws IOException {
+
+        model.addAttribute("contentDTO", new ContentUploadDTO());
+
+        return "contentUpload";
+    }
+
+    //Upload
+    @PostMapping("/uploadForm")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes,
+                                   ContentUploadDTO dto) {
+
+        contentService.save(file, dto);
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        return "redirect:/uploadForm";
+    }
+
+    @GetMapping(value = "/stream/{contentName}")
     public String stream(
-            @PathVariable("contentType")String contentType,
             @PathVariable("contentName")String contentName,
             HttpServletRequest request,
             HttpServletResponse response)
             throws UnsupportedEncodingException, IOException {
 
         log.info("----------콘텐츠 불러오기----------");
-        log.info("contentType : " + contentType);
         log.info("contentName : " + contentName);
-        String path = "C:/daelim/gcoach/content/audio/" + contentType + "/";
+        String path = "/Users/hoya/gcoach/upload-dir/";
         log.info("path : " + path);
 
         // 확장자 확인

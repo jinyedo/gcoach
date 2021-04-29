@@ -28,9 +28,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GcoachController {
 
-    private final MemberRepository memberRepository;
-    private final ContentRepository contentRepository;
-    private final LikeRepository likeRepository;
     private final JoinService joinService;
 
     @GetMapping("/test")
@@ -93,46 +90,26 @@ public class GcoachController {
         return "redirect:/login";
     }
 
-    @GetMapping("/play")
-    public void getPlay(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) throws JsonProcessingException {
-        log.info("getPlay..........");
-        Optional<Member> memberResult = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
-        Optional<Content> contentResult = contentRepository.findById(1L);
-        if (memberResult.isPresent() && contentResult.isPresent()) {
-            Member member = memberResult.get();
-            Content content = contentResult.get();
-            boolean likeCheck = likeRepository.findByMemberAndContent(member, content).isPresent();
-            PlayDTO playDTO = PlayDTO.builder()
-                    .mid(member.getMid())
-                    .nickname(member.getNickname())
-                    .cid(content.getCid())
-                    .contentType(content.getType())
-                    .contentName(content.getTitle())
-                    .likeCount(content.getLikeCount())
-                    .likeCheck(likeCheck)
-                    .build();
-            log.info(playDTO);
-            model.addAttribute("dto", playDTO);
-        }
-    }
-
-    public MemberDTO authMemberDtoToMemberDto(AuthMemberDTO authMemberDTO) {
-        Optional<Member> result = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
-        if (result.isPresent()) {
-            Member member = result.get();
-            return MemberDTO.builder()
-                    .mid(member.getMid())
-                    .username(member.getUsername())
-                    .password(member.getPassword())
-                    .name(member.getName())
-                    .nickname(member.getNickname())
-                    .phone(member.getPhone())
-                    .formSocial(member.isFormSocial())
-                    .socialType(member.getSocialType())
-                    .emotion(member.getEmotion())
-                    .interest(member.getInterest())
-                    .build();
-        }
-        return null;
-    }
+//    @GetMapping("/play")
+//    public void getPlay(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) throws JsonProcessingException {
+//        log.info("getPlay..........");
+//        Optional<Member> memberResult = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
+//        Optional<Content> contentResult = contentRepository.findById(1L);
+//        if (memberResult.isPresent() && contentResult.isPresent()) {
+//            Member member = memberResult.get();
+//            Content content = contentResult.get();
+//            boolean likeCheck = likeRepository.findByMemberAndContent(member, content).isPresent();
+//            PlayDTO playDTO = PlayDTO.builder()
+//                    .mid(member.getMid())
+//                    .nickname(member.getNickname())
+//                    .cid(content.getCid())
+//                    .contentType(content.getType())
+//                    .contentName(content.getTitle())
+//                    .likeCount(content.getLikeCount())
+//                    .likeCheck(likeCheck)
+//                    .build();
+//            log.info(playDTO);
+//            model.addAttribute("dto", playDTO);
+//        }
+//    }
 }

@@ -85,6 +85,7 @@
         const mid = [[${dto.mid}]];
         const reply = $("input[name='reply']");
 
+        // 댓글 추가 버튼 이벤트 처리
         $(".addReply_btn").click(function () {
             const data = {
                 mid: mid,
@@ -105,7 +106,7 @@
                 }
             });
         })
-
+        // 전체 댓글 조회
         function getContentReply() {
             $.getJSON(`/reply/${cid}/all`, function (arr) {
                 let str = "";
@@ -131,9 +132,9 @@
                 $(".replyList").html(str);
             })
         }
-
         getContentReply();
 
+        // 좋아요 클릭 이벤트 처리
         $(".play-likes").click(function () {
             const data = {
                 mid: mid,
@@ -151,7 +152,7 @@
                 }
             })
         })
-
+        // 좋아요 갱신
         function updateLike(result) {
             const json = JSON.parse(result)
             console.log(json);

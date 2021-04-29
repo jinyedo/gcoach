@@ -28,18 +28,22 @@
 
 /***serve page header***/
 .page-header {
-    margin-top: 58px;
-    background-color: #55576f;
-    height: 100px;
-    display: block;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    margin-top: 8%;
+    height: 56px;
+    line-height: 56px;
+    background-color: #55576f;
+}
+
+.page-header a {
+    font-size: 24px;
     color: #fff;
-    font-size: 40px;
-    line-height: 100px;
 }
 
 .page-header i {
-    padding-left: 57px;
+    padding-left: 18px;
 }
 
 /***play page header***/

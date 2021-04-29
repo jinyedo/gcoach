@@ -44,4 +44,12 @@ public class Member extends BaseEntity{
     public void addMemberRole(MemberRole memberRole) {
         roleSet.add(memberRole);
     }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
+    public void setEmotion(String emotion) {
+        this.emotion = emotion;
+    }
 }
