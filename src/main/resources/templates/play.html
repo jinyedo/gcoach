@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
@@ -11,7 +11,7 @@
 <header class="play-header">
     <div class="play-header__left">
         <span><a href="sidebar.html"><i class="fas fa-bars fa-sm"></i></a></span>
-        <a href="main.html"><img src="./images/logo.png"></a>
+        <a th:href="@{/}"><img src="/images/logo.png"></a>
     </div>
     <a class="play-header__right" href="search.html"><i class="fas fa-search"></i></a>
 </header>
@@ -23,7 +23,7 @@
 
 <div class="contents-play-audio">
     <audio class="contents-play-audio" controls autoplay>
-        <source th:src="@{'/stream/' + ${dto.contentType} + '/' + ${dto.contentName}}" type="audio/mp3">
+        <source th:src="@{'/stream/' + ${dto.contentName}}" type="audio/mp3">
     </audio>
 </div>
 
@@ -35,28 +35,21 @@
             <span th:if="${!dto.likeCheck}" class="play-likes"><i class="far fa-heart fa-lg"></i>[[${dto.likeCount}]] Likes</span>
             <!-- 좋아요 카운트 ?????????? -->
         </div>
-        <a href="play.html"><div class="play-screen__content">
-            <div class="play-screen__content-column">
-                <div class="play-screen__thumbnail">
-                    <img src="./images/thumbnail_example.jpg" alt="">
+        <th:block th:each="content : ${contents}">
+            <a th:href="@{/{id}/play (id=${content.cid})}">
+                <div class="play-screen__content">
+                    <div class="play-screen__content-column">
+                        <div class="play-screen__thumbnail">
+                            <img src="/images/thumbnail_example.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="play-screen__content-column">
+                        <h5 class="play-screen__content-title">동영상제목</h5>
+                        <h6 class="play-screen__content-text">동영상내용입니다.</h6>
+                    </div>
                 </div>
-            </div>
-            <div class="play-screen__content-column">
-                <h5 class="play-screen__content-title">동영상제목</h5>
-                <h6 class="play-screen__content-text">동영상내용입니다.</h6>
-            </div>
-        </div></a>
-        <a href="play.html"><div class="play-screen__content">
-            <div class="play-screen__content-column">
-                <div class="play-screen__thumbnail">
-                    <img src="./images/thumbnail_example.jpg" alt="">
-                </div>
-            </div>
-            <div class="play-screen__content-column">
-                <h5 class="play-screen__content-title">동영상제목</h5>
-                <h6 class="play-screen__content-text">동영상내용입니다.</h6>
-            </div>
-        </div></a>
+            </a>
+        </th:block>
     </div>
     <div class="play-screen__container">
         <h4>댓글</h4>
@@ -77,7 +70,7 @@
     <a href="#"><p class="footer__text">청소년 보호정책</p></a>
 </footer>
 
-<script src="jquery/jquery.min.js"></script>
+<script src="/jquery/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
 <script th:inline="javascript">
     $(document).ready(function (e) {
@@ -118,7 +111,7 @@
                             <div class="play-screen__content">
                                 <div class="play-screen__content-column">
                                     <div class="user-comment">
-                                        <img src="./images/userimage.jpg" alt="">
+                                        <img src="/images/userimage.jpg" alt="">
                                     </div>
                                 </div>
                                 <div class="play-screen__content-column">

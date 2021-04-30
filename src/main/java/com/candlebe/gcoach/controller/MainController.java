@@ -4,6 +4,8 @@ import com.candlebe.gcoach.dto.InterestDTO;
 import com.candlebe.gcoach.dto.PlayDTO;
 import com.candlebe.gcoach.entity.Content;
 import com.candlebe.gcoach.entity.Member;
+import com.candlebe.gcoach.repository.ContentRepository;
+import com.candlebe.gcoach.repository.LikeRepository;
 import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.security.dto.AuthMemberDTO;
 import com.candlebe.gcoach.service.ContentService;
@@ -29,6 +31,8 @@ public class MainController {
 
     private final ContentService contentService;
     private final MemberRepository memberRepository;
+    private final ContentRepository contentRepository;
+    private final LikeRepository likeRepository;
 
     //메인(호흡훈련)으로 이동
     @GetMapping("/")
@@ -118,18 +122,20 @@ public class MainController {
 
         log.info("getPlay..........");
         // 사용자 정보와 콘텐츠 조회 후
-        Optional<Member> result = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
-        Optional<Content> content = contentService.findOne(id);
-        System.out.println(content.get().getCid());
-        System.out.println(content.get().getOriginalName());
-        if (result.isPresent()) {
-            // 값이 있다면 필요 정보들을 playDTO 에 담아 play 페이지로 이동
-            Member member = result.get();
+        Optional<Member> memberResult = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
+        Optional<Content> contentResult = contentRepository.findById(id);
+        if (memberResult.isPresent() && contentResult.isPresent()) {
+            Member member = memberResult.get();
+            Content content = contentResult.get();
+            boolean likeCheck = likeRepository.findByMemberAndContent(member, content).isPresent();
             PlayDTO playDTO = PlayDTO.builder()
                     .mid(member.getMid())
                     .nickname(member.getNickname())
-                    .cid(content.get().getCid())
-                    .contentName(content.get().getOriginalName())
+                    .cid(content.getCid())
+                    .contentType(content.getType())
+                    .contentName(content.getOriginalName())
+                    .likeCount(content.getLikeCount())
+                    .likeCheck(likeCheck)
                     .build();
             log.info(playDTO);
             model.addAttribute("dto", playDTO);

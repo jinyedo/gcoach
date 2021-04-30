@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Arrays;
 
-@RestController
+@Controller
 @Log4j2
 @RequiredArgsConstructor
 public class ContentController {
@@ -52,7 +52,7 @@ public class ContentController {
 
         log.info("----------콘텐츠 불러오기----------");
         log.info("contentName : " + contentName);
-        String path = "/Users/hoya/gcoach/upload-dir/";
+        String path = "C:/daelim/Project/gcoach/upload-dir/";
         log.info("path : " + path);
 
         // 확장자 확인

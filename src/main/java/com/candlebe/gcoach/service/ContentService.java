@@ -8,6 +8,7 @@ import com.candlebe.gcoach.storage.StorageProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -82,16 +83,16 @@ public class ContentService {
         return contentRepository.findById(id);
     }
 
-//    public void deleteAll() {
-//        FileSystemUtils.deleteRecursively(rootLocation.toFile());
-//    }
-//
-//    public void init() {
-//        try {
-//            Files.createDirectories(rootLocation);
-//        }
-//        catch (IOException e) {
-//            throw new StorageException("Could not initialize storage", e);
-//        }
-//    }
+    public void deleteAll() {
+        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+
+    public void init() {
+        try {
+            Files.createDirectories(rootLocation);
+        }
+        catch (IOException e) {
+            throw new StorageException("Could not initialize storage", e);
+        }
+    }
 }
