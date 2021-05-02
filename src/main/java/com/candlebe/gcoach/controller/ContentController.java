@@ -52,7 +52,7 @@ public class ContentController {
 
         log.info("----------콘텐츠 불러오기----------");
         log.info("contentName : " + contentName);
-        String path = "C:/daelim/Project/gcoach/upload-dir/";
+        String path = "./upload-dir/";
         log.info("path : " + path);
 
         // 확장자 확인

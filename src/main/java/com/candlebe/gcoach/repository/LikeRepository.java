@@ -18,6 +18,6 @@ public interface LikeRepository extends JpaRepository<Likes, Long> {
     Long findLikes(Member member, Content content);
 
     // 좋아요 개수
-    @Query("SELECT COUNT(l) FROM Likes l")
-    int likeCount();
+    @Query("SELECT COUNT(l) FROM Likes l WHERE l.content = :content")
+    int likeCount(Content content);
 }

@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="play-screen__content-column">
-                        <h5 class="play-screen__content-title">동영상제목</h5>
+                        <h5 class="play-screen__content-title" th:text="${content.title}">동영상제목</h5>
                         <h6 class="play-screen__content-text">동영상내용입니다.</h6>
                     </div>
                 </div>
@@ -76,6 +76,7 @@
     $(document).ready(function (e) {
         const cid = [[${dto.cid}]];
         const mid = [[${dto.mid}]];
+        console.log(`mid : ${mid}, cid : ${cid}`)
         const reply = $("input[name='reply']");
 
         // 댓글 추가 버튼 이벤트 처리
@@ -133,6 +134,7 @@
                 mid: mid,
                 cid: cid
             }
+            console.log("좋아요 이벤트 처리 데이터 : " + data);
             $.ajax({
                 url: '/like',
                 type: "POST",

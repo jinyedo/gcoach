@@ -33,7 +33,7 @@ public class LikeServiceImpl implements LikeService {
         // 좋아요를 누른적이 없다면 좋아요 추가
         if(isNotAlreadyLike(member, content)) {
             likeRepository.save(likes);
-            likeCount = likeRepository.likeCount();
+            likeCount = likeRepository.likeCount(content);
             content.setLikeCount(likeCount);
             content.addLikes(likes);
             contentRepository.save(content);
@@ -43,7 +43,7 @@ public class LikeServiceImpl implements LikeService {
         } else {
             Long lid = likeRepository.findLikes(member, content);
             likeRepository.deleteById(lid);
-            likeCount = likeRepository.likeCount();
+            likeCount = likeRepository.likeCount(content);
             content.setLikeCount(likeCount);
             content.deleteLikes(likes);
             contentRepository.save(content);

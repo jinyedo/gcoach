@@ -1,7 +1,11 @@
 package com.candlebe.gcoach.controller;
 
 import com.candlebe.gcoach.dto.PlayDTO;
+import com.candlebe.gcoach.entity.Content;
+import com.candlebe.gcoach.entity.Member;
+import com.candlebe.gcoach.repository.ContentRepository;
 import com.candlebe.gcoach.repository.LikeRepository;
+import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.service.LikeService;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -12,16 +16,19 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 @RequiredArgsConstructor
 public class LikeController {
-
+    private final MemberRepository memberRepository;
+    private final ContentRepository contentRepository;
     private final LikeRepository likeRepository;
     private final LikeService likeService;
 
     @PostMapping("/like")
     public String addLike(@RequestBody PlayDTO dto) {
-        int likeCount = 0;
-        boolean likeCheck;
-        likeCheck = likeService.addLike(dto.getMid(), dto.getCid());
-        likeCount = likeRepository.likeCount();
+        log.info("----------좋아요----------");
+        log.info("dto : " + dto);
+        Member member = memberRepository.findById(dto.getMid()).orElseThrow();
+        Content content = contentRepository.findById(dto.getCid()).orElseThrow();
+        boolean likeCheck = likeService.addLike(member.getMid(), content.getCid());
+        int likeCount = likeRepository.likeCount(content);
         return "{\"likeCheck\":"+ likeCheck + ",\"likeCount\":" + likeCount + "}";
     }
 }

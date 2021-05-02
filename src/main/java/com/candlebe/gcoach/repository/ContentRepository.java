@@ -13,6 +13,17 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
     @Query("SELECT t FROM Content t WHERE t.category1 = :category or t.category2 = :category or t.category3 = :category")
     List<Content> findByCategory(String category);
 
+    @Query("SELECT t FROM Content t " +
+            "WHERE t.category1 = :category1 or t.category2 = :category1 or t.category3 = :category1 " +
+            "or t.category1 = :category2 or t.category2 = :category2 or t.category3 = :category2 ")
+    List<Content> findByCategory(String category1, String category2);
+
+    @Query("SELECT t FROM Content t " +
+            "WHERE t.category1 = :category1 or t.category2 = :category1 or t.category3 = :category1 " +
+            "or t.category1 = :category2 or t.category2 = :category2 or t.category3 = :category2 " +
+            "or t.category1 = :category3 or t.category2 = :category3 or t.category3 = :category3")
+    List<Content> findByCategory(String category1, String category2, String category3);
+
     // 관심 분야와 감정으로 추천 콘텐츠 조회
     @Query("SELECT t FROM Content t WHERE t.category1 = :interest or t.category1 = :emotion " +
             "                          or t.category2 = :interest or t.category2 = :emotion" +

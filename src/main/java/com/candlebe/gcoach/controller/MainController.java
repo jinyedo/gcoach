@@ -12,6 +12,7 @@ import com.candlebe.gcoach.service.ContentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.lang.reflect.Array;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,31 +119,68 @@ public class MainController {
     }
 
     // 플레이 화면으로 이동
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}/play")
     public String getPlay(@AuthenticationPrincipal AuthMemberDTO authMemberDTO,
                           @PathVariable("id") Long id, Model model) throws JsonProcessingException {
 
-        log.info("getPlay..........");
-        // 사용자 정보와 콘텐츠 조회 후
-        Optional<Member> memberResult = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
-        Optional<Content> contentResult = contentRepository.findById(id);
-        if (memberResult.isPresent() && contentResult.isPresent()) {
-            Member member = memberResult.get();
-            Content content = contentResult.get();
-            boolean likeCheck = likeRepository.findByMemberAndContent(member, content).isPresent();
-            PlayDTO playDTO = PlayDTO.builder()
-                    .mid(member.getMid())
-                    .nickname(member.getNickname())
-                    .cid(content.getCid())
-                    .contentType(content.getType())
-                    .contentName(content.getOriginalName())
-                    .likeCount(content.getLikeCount())
-                    .likeCheck(likeCheck)
-                    .build();
-            log.info(playDTO);
-            model.addAttribute("dto", playDTO);
+        log.info("---------------플레이화면---------------");
+        // 로그인한 회원 정보
+        Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
+        // id 값에 맞는 콘텐츠
+        Content content = contentRepository.findById(id).orElseThrow();
+        // 해당 회원이 해당 콘텐츠에 좋아요를 눌렀는지
+        boolean likeCheck = likeRepository.findByMemberAndContent(member, content).isPresent();
+        // 해당 콘텐츠의 총 좋아요 수
+        int likeCount = likeRepository.likeCount(content);
+
+        // 콘텐츠를 담는 리스트
+        List<Content> contents = new ArrayList<>();
+        // 카테고리를 담는 리스트
+        ArrayList<String> categoryList = new ArrayList<>();
+
+        // 콘텐츠의 카테고리가 null 일 경우 빈 문자열로 변환 (NullPoint Exception 방지)
+        String category1 = content.getCategory1() == null ? "" : content.getCategory1();
+        String category2 = content.getCategory2() == null ? "" : content.getCategory2();
+        String category3 = content.getCategory3() == null ? "" : content.getCategory3();
+        log.info("category1 : " + category1);
+        log.info("category2 : " + category2);
+        log.info("category3 : " + category3);
+
+        // 카테고리가 빈 값이 아닐경우 카테고리리스트에 추가
+        if (category1 != null && !category1.equals("")) categoryList.add(category1);
+        if (category2 != null && !category2.equals("")) categoryList.add(category2);
+        if (category3 != null && !category3.equals("")) categoryList.add(category3);
+        log.info("categoryList : " + categoryList);
+
+        // 카테고리에 맞는 콘텐츠들을 List 에 저장
+        if (categoryList.size() == 1) { // 카테고리가 하나일 경우
+            contents = contentService.findContentsByCategory(categoryList.get(0));
+        } else if (categoryList.size() == 2) { // 카테고리가 두개일 경우
+            contents = contentService.findContentsByCategory(categoryList.get(0), categoryList.get(1));
+        } else if (categoryList.size() == 3) { // 카테고리가 세개일 경우
+            contents = contentService.findContentsByCategory(categoryList.get(0), categoryList.get(1), categoryList.get(2));
         }
 
+        // 현재 플레이중인 콘텐츠는 콘텐츠 리스트에서 제외
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i).getCid().equals(id)) {
+                contents.remove(contents.get(i));
+            }
+        }
+
+        PlayDTO playDTO = PlayDTO.builder()
+                .mid(member.getMid())
+                .nickname(member.getNickname())
+                .cid(content.getCid())
+                .contentName(content.getOriginalName())
+                .likeCount(likeCount)
+                .likeCheck(likeCheck)
+                .build();
+        log.info("playDTO : " + playDTO);
+        log.info("contents : " + contents);
+        model.addAttribute("dto", playDTO);
+        model.addAttribute("contents", contents);
         return "play";
     }
 }

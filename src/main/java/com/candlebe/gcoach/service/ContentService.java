@@ -73,6 +73,14 @@ public class ContentService {
         return contentRepository.findByCategory(category);
     }
 
+    public List<Content> findContentsByCategory(String category1, String category2) {
+        return contentRepository.findByCategory(category1, category2);
+    }
+
+    public List<Content> findContentsByCategory(String category1, String category2, String category3) {
+        return contentRepository.findByCategory(category1, category2, category3);
+    }
+
     // 받아온 관심 분야와 감정을 통해 추천 콘텐츠 조회 후 그에 맞는 리스트 리턴
     public List<Content> findContentsForUser(String interest, String emotion) {
         return contentRepository.findByUsers(interest, emotion);
