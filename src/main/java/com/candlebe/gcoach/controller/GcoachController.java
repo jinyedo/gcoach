@@ -1,19 +1,9 @@
 package com.candlebe.gcoach.controller;
 
 import com.candlebe.gcoach.dto.MemberDTO;
-import com.candlebe.gcoach.dto.PlayDTO;
-import com.candlebe.gcoach.dto.ReplyDTO;
-import com.candlebe.gcoach.entity.Content;
-import com.candlebe.gcoach.entity.Member;
-import com.candlebe.gcoach.repository.ContentRepository;
-import com.candlebe.gcoach.repository.LikeRepository;
-import com.candlebe.gcoach.repository.MemberRepository;
-import com.candlebe.gcoach.security.dto.AuthMemberDTO;
 import com.candlebe.gcoach.service.JoinService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,7 +11,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @Log4j2
