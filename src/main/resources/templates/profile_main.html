@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${memberDTO.username}]] 프로필</title>
+</head>
+<body>
+<h3>닉네임 : [[${memberDTO.nickname}]]</h3>
+<h3><a th:href="@{/profile_changeNickname}">닉네임 변경</a></h3>
+<h3><a th:href="@{/profile_changePassword}">비밀번호 변경</a></h3>
+<script th:inline="javascript">
+    const msg = [[${msg}]];
+    if (msg !== null && msg !== "") {
+        alert(msg);
+    }
+</script>
+</body>
+</html>

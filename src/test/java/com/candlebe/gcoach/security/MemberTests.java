@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Commit;
+
+import javax.transaction.Transactional;
 
 
 @SpringBootTest
@@ -30,5 +33,16 @@ public class MemberTests {
                 .build();
         member.addMemberRole(MemberRole.ADMIN);
         memberRepository.save(member);
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void updateNickname() {
+        Member member = memberRepository.findByUsername("jinyedo1").orElseThrow();
+        System.out.println("변경 전 회원 정보 : " + member);
+        memberRepository.updateNickname("닉네임변경", "jinyedo1");
+        Member member2 = memberRepository.findByUsername("jinyedo1").orElseThrow();
+        System.out.println("변경 후 회원 정보 : " + member2);
     }
 }

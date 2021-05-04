@@ -30,6 +30,8 @@ public class MemberDTO{
     @Pattern(regexp = "[가-힣]{2,6}", message = "올바른 형식의 이름을 입력해주세요.")
     private String name; // 이름
 
+    @NotBlank
+    @Pattern(regexp = "[A-za-z0-9가-힣]{2,8}", message = "올바른 형식의 닉네임을 입력해주세요.")
     private String nickname; // 닉네임
 
     @NotBlank(message = "휴대폰 번호는 필수 입력정보 입니다.")

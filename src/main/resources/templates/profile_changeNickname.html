@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>닉네임 변경</title>
+</head>
+<body>
+    <h1>닉네임 변경</h1>
+    <form th:action="@{/profile_changeNickname}" th:method="POST" name="changeNickname_form">
+        <input type="text" class="nickname" name="nickname" onkeydown="checkSpace()">
+        <span class="error_msg"></span> <br>
+        <input type="submit" value="변경하기" onclick="changeNickname()">
+    </form>
+
+    <script src="jquery/jquery.min.js"></script>
+    <script th:inline="javascript">
+        const msg = [[${msg}]];
+        if (msg !== null && msg !== "") {
+            alert(msg);
+        }
+
+        // 스페이스 입력 제한
+        function checkSpace() {
+            const kcode = event.keyCode;
+            if (kcode === 32) event.returnValue = false;
+        }
+
+        const nickname = $(".nickname")
+        const nicknameJ = /^[A-za-z가-힣]{2,8}$/;
+        let nicknameB = false;
+
+        $('.nickname').blur(function () {
+            if ($(this).val() !== "" || $(this).val().length !== 0) {
+                if (nicknameJ.test($(this).val())) {
+                    $.ajax({
+                        url: '/checkNickname',
+                        type: 'POST',
+                        data: {
+                            "nickname": $(".nickname").val()
+                        },
+                        success: function (data) {
+                            console.log(data)
+                            if (data === "fail") {
+                                console.log("nickname : false");
+                                nicknameB = false;
+                                $('.error_msg').text("이미 사용중인 닉네임입니다.").css('color', 'red');
+                            } else if (data === "success") {
+                                console.log("username : true");
+                                nicknameB = true;
+                                $('.error_msg').text("사용 가능한 닉네임입니다.").css('color', 'green');
+                            }
+                        },
+                        error: function (error) {
+                            console.log("error : " + error);
+                            nicknameB = false;
+                            alert("알수없는 이유로 닉네임을 변경할 수 없습니다. 관리자에게 문의해주세요.")
+                        }
+                    })
+                } else {
+                    console.log("nickname : false");
+                    nicknameB = false;
+                    $('.error_msg').text("올바른 형식의 닉네임을 입력해주세요.").css('color', 'red');
+                }
+            } else if ($(this).val() === "" || $(this).val().length === 0) {
+                console.log("nickname : false");
+                nicknameB = false;
+                $('.error_msg').text("닉네임을 입력해주세요.").css('color', 'red');
+            }
+        })
+
+        function changeNickname() {
+            if ($(".nickname").val() === "" || $(".nickname").val().length === 0) {
+                $(".nickname").focus();
+                $('.error_msg').text("닉네임을 입력해주세요.").css('color', 'red');
+            } else if (!nicknameB) {
+                $(".nickname").focus();
+            } else if (nicknameB) {
+                $("changeNickname_form").submit();
+            }
+        }
+    </script>
+</body>
+</html>
