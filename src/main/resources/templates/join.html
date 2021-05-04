@@ -82,6 +82,7 @@
               success: function (data) {
                 console.log(data)
                 if (data === "fail") {
+                  usernameB = false;
                   $('#E_username').text("이미 사용중인 아이디입니다.").css('color', 'red');
                 } else if (data === "success") {
                   console.log("username : true");
@@ -90,6 +91,7 @@
                 }
               },
               error : function(error) {
+                usernameB = false;
                 console.log("error : " + error);
               }
             })
@@ -98,7 +100,7 @@
             usernameB = false;
             $('#E_username').text("올바른 형식의 아이디를 입력해주세요.").css('color', 'red');
           }
-        } else if (username.value === "" || username.value.length !== 0) {
+        } else if (username.value === "" || username.value.length === 0) {
           usernameB = false;
           $('#E_username').text("필수 정보입니다.").css('color', 'red');
         }
