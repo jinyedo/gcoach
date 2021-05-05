@@ -6,6 +6,7 @@ import com.candlebe.gcoach.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 
@@ -19,7 +20,7 @@ public class MemberTests {
     private MemberRepository memberRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Test
     public void insertMembers() {
@@ -44,5 +45,19 @@ public class MemberTests {
         memberRepository.updateNickname("닉네임변경", "jinyedo1");
         Member member2 = memberRepository.findByUsername("jinyedo1").orElseThrow();
         System.out.println("변경 후 회원 정보 : " + member2);
+    }
+
+    @Test
+    public void passwordEquals() {
+        Member member = memberRepository.findByUsername("jinyedo", false).orElseThrow();
+        System.out.println(member.getPassword());
+        String password = "ydakstp123@"; // true
+        // String password = passwordEncoder.encode("ydakstp123@"); // false
+
+        if (passwordEncoder.matches(password, member.getPassword())) {
+            System.out.println("true");
+        } else {
+            System.out.println("false");
+        }
     }
 }
