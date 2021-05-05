@@ -11,6 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @ToString(exclude = "roleSet")
 public class Member extends BaseEntity{
 
