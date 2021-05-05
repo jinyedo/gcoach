@@ -4,11 +4,12 @@ import com.candlebe.gcoach.dto.MemberDTO;
 import com.candlebe.gcoach.entity.Member;
 import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.security.dto.AuthMemberDTO;
-import com.candlebe.gcoach.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,37 +22,38 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+/* 프로필 컨트롤러 */
 @Controller
 @Log4j2
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('USER')")
 public class ProfileController {
 
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final MemberRepository memberRepository;
-    private final MemberService memberService;
 
+/* 프로필 메인 페이지 */
     @GetMapping("/profile_main")
     public void getProfile(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) {
         log.info("getProfile_main..........");
-        MemberDTO memberDTO = entityToDto(authMemberDTO);
+        MemberDTO memberDTO = authMemberDtoToMemberDto(authMemberDTO);
         model.addAttribute("memberDTO", memberDTO);
     }
+/* ***** */
 
+/* 닉네임 변경 페이지 */
     @GetMapping("/profile_changeNickname")
-    public void getChangeNickname(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) {
+    public void getChangeNickname() {
         log.info("getProfile_changeNickname..........");
-        MemberDTO memberDTO = entityToDto(authMemberDTO);
-        model.addAttribute("memberDTO", memberDTO);
     }
 
     @PostMapping("/profile_changeNickname")
     public String postChangeNickname(@AuthenticationPrincipal AuthMemberDTO authMemberDTO,
                                      @Valid MemberDTO memberDTO, Errors errors, Model model, RedirectAttributes redirectAttributes) {
         log.info("postProfile_changeNickname..........");
-        MemberDTO memberDTO2 = entityToDto(authMemberDTO);
-        boolean changeNickname = true;
-
-        log.info("기존 닉네임 : " + memberDTO2.getNickname());
+        Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
+        boolean changeNickname = false;
+        log.info("기존 닉네임 : " + member.getNickname());
         log.info("변경할 닉네임 : " + memberDTO.getNickname());
 
         if (errors.hasErrors()) {
@@ -59,32 +61,105 @@ public class ProfileController {
             for (FieldError error : errors.getFieldErrors()) {
                 if (error.getField().equals("nickname")) {
                     log.info(String.format("valid_%s", error.getField()) + " : " + error.getDefaultMessage());
-                    changeNickname = false;
+                    changeNickname = true;
                 }
             }
             log.info("----------------------------");
         }
-        log.info(changeNickname);
-        if (!changeNickname) {
+        log.info("오류 여부 : " + changeNickname);
+        if (changeNickname) {
             model.addAttribute("msg", "변경 실패");
             return "/profile_changeNickname";
         } else {
-            memberRepository.updateNickname(memberDTO.getNickname(), memberDTO2.getUsername());
+            member.setNickname(memberDTO.getNickname());
+            memberRepository.save(member);
+            MemberDTO memberDTO2 = entityToDto(member);
             model.addAttribute("msg", "닉네임 변경이 완료되었습니다.");
+            model.addAttribute("memberDTO", memberDTO2);
+            return "/profile_main";
+        }
+    }
+/* ***** */
+
+/* 비밀번호 변경 페이지 */
+    @GetMapping("/profile_changePassword")
+    public void getChangePassword() {
+        log.info("getProfile_changePassword..........");
+    }
+
+    @PostMapping("/profile_changePassword")
+    public String postChangePassword(@AuthenticationPrincipal AuthMemberDTO authMemberDTO,
+                                     @Valid MemberDTO memberDTO, Errors errors, Model model, RedirectAttributes redirectAttributes) {
+
+        log.info("postProfile_changePassword..........");
+        Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
+        log.info("변경할 비밀번호 : " + memberDTO.getPassword());
+        boolean checkError = false;
+        if (errors.hasErrors()) {
+            log.info("-----유효성 검사 오류 종류-----");
+            for (FieldError error : errors.getFieldErrors()) {
+                if (error.getField().equals("password") || error.getField().equals("confirmPassword") || error.getField().equals("checkPassword")) {
+                    log.info(String.format("valid_%s", error.getField()) + " : " + error.getDefaultMessage());
+                    checkError = true;
+                }
+            }
+            log.info("----------------------------");
+        }
+        log.info("오류 여부 : " + checkError);
+        if (checkError) {
+            model.addAttribute("msg", "비밀번호 변경 실패");
+            return "/profile_changePassword";
+        } else {
+            member.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
+            memberRepository.save(member);
+            MemberDTO memberDTO2 = entityToDto(member);
+            model.addAttribute("msg", "비밀번호 변경이 완료되었습니다.");
+            model.addAttribute("memberDTO", memberDTO2);
             return "/profile_main";
         }
     }
 
-    @RequestMapping("/checkNickname")
+    @RequestMapping("/checkPassword")
     @ResponseBody
-    public String postCheckNickname(String nickname) {
-        log.info("닉네임 : " + nickname);
-        String result = memberService.checkNickname(nickname);
-        log.info("닉네임 중복 여부 : " + result);
-        return result;
+    public boolean checkPassword(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, String password) {
+        log.info("----------비밀번호 비교 검사----------");
+        log.info("비교할 비밀번호 : " + password);
+        boolean checkPassword = passwordEncoder.matches(password, authMemberDTO.getPassword());
+        log.info("비밀번호 비교 결과 : " + checkPassword);
+        log.info("---------------------------------");
+        return checkPassword;
+    }
+/* ***** */
+
+/* 관심사 변경 페이지 */
+    @GetMapping("/profile_changeInterest")
+    public void getChangeInterest() {
+        log.info("getChangeInterest..........");
     }
 
-    private MemberDTO entityToDto(@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+    @PostMapping("/profile_changeInterest")
+    public String  postChangeInterest(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, String interest, Model model) {
+        log.info("postChangeInterest..........");
+        Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
+        log.info("기존 회원의 관심사 : " + member.getInterest());
+        log.info("변경할 관심사 : " + interest);
+        member.setInterest(interest);
+        memberRepository.save(member);
+        MemberDTO memberDTO = entityToDto(member);
+        log.info("변경 후 회원의 관심사 : " + memberDTO.getInterest());
+        model.addAttribute("msg", "관심사 변경이 완료되었습니다.");
+        model.addAttribute("memberDTO", memberDTO);
+        return "/profile_main";
+    }
+/* ***** */
+
+    @GetMapping("/profile_changeEmotion")
+    public void getChangeEmotion() {
+        log.info("getChangeEmotion..........");
+    }
+
+    // 로그인한 회원 정보를 MemberDTO 로 변환
+    private MemberDTO authMemberDtoToMemberDto(@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
         return MemberDTO.builder()
                 .username(member.getUsername())
@@ -92,6 +167,20 @@ public class ProfileController {
                 .nickname(member.getNickname())
                 .name(member.getName())
                 .phone(member.getPhone())
+                .build();
+    }
+
+    private MemberDTO entityToDto(Member member) {
+        return MemberDTO.builder()
+                .username(member.getUsername())
+                .password(member.getPassword())
+                .name(member.getName())
+                .nickname(member.getNickname())
+                .phone(member.getPhone())
+                .formSocial(member.isFormSocial())
+                .socialType(member.getSocialType())
+                .interest(member.getInterest())
+                .emotion(member.getEmotion())
                 .build();
     }
 }
