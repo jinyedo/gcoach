@@ -1,13 +1,82 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="css/style.css">
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>[[${memberDTO.username}]] 프로필</title>
 </head>
 <body>
-<h3>닉네임 : [[${memberDTO.nickname}]]</h3>
-<h3><a th:href="@{/profile_changeNickname}">닉네임 변경</a></h3>
-<h3><a th:href="@{/profile_changePassword}">비밀번호 변경</a></h3>
+<header class="main-header">
+    <div class="main-header__left">
+        <span><a href="sidebar.html"><i class="fas fa-bars fa-sm"></i></a></span>
+        <img src="./images/logo.png">
+    </div>
+    <div class="main-header__right">
+        <form action="#">
+            <input class="main-header__right-input" name="" type="text" placeholder="">
+            <input class="main-header__right-icon" name="" type="submit" value=""><i class="fas fa-search"></i></input>
+        </form>
+    </div>
+</header>
+
+<div class="search">
+    <div class="search-column">
+        <div class="search_container">
+            <h1><a>최근 검색어</a></h1>
+            <h4><a>명상</a></h4>
+            <h4><a>ASMR</a></h4>
+        </div>
+        <div class="search_container">
+            <h1><a>전체 삭제</a></h1>
+            <h4><a>X</a></h4>
+            <h4><a>X</a></h4>
+        </div>
+    </div>
+</div>
+
+<nav class="diary-navbar">
+    <ul class="diary-nav__ul">
+        <li class="diary-nav__li"><p class="diary-nav__p">프로필</p></li>
+    </ul>
+</nav>
+
+<main class="serve-screen">
+    <div class="profile-screen">
+        <div class="profile-container">
+            <div class="profile-container__user">
+                <div class="user">
+                    <img src="./images/userimage.jpg" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="profile-container">
+            <div class="profile-data">
+                <h1>닉네임 : [[${memberDTO.nickname}]]</h1>
+                <h3> 총 명상 시간 : 00시간 00분</h3>
+                <h3>level : bronze</h3>
+            </div>
+        </div>
+        <div class="profile-container">
+            <div class="profile-btn"><a th:href="@{/profile_changeNickname}"><button>닉네임 변경</button></a></div>
+            <div class="profile-btn"><a th:href="@{/profile_changePassword}"><button>비밀번호 변경</button></a></div>
+            <div class="profile-btn"><a th:href="@{/profile_changeInterest}"><button>관심리스트 변경</button></a></div>
+            <div class="profile-btn"><a th:href="@{/profile_changeEmotion}"><button>감정 변경</button></a></div>
+            <div class="profile-btn"><button>로그아웃</button></div>
+        </div>
+    </div>
+</main>
+
+<footer class="main-footer">
+    <a href="#"><p class="footer__text">회사소개</p></a>
+    <a href="#"><p class="footer__text">개인정보 처리방침</p></a>
+    <a href="#"><p class="footer__text">서비스 이용약관</p></a>
+    <a href="#"><p class="footer__text">청소년 보호정책</p></a>
+</footer>
+
+<script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
+<script src="jquery/jquery.min.js"></script>
 <script th:inline="javascript">
     const msg = [[${msg}]];
     if (msg !== null && msg !== "") {
