@@ -2,6 +2,7 @@ package com.candlebe.gcoach.controller;
 
 import com.candlebe.gcoach.dto.MemberDTO;
 import com.candlebe.gcoach.service.JoinService;
+import com.candlebe.gcoach.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class GcoachController {
 
+    private final MemberService memberService;
     private final JoinService joinService;
 
     @GetMapping("/test")
@@ -40,6 +42,17 @@ public class GcoachController {
         log.info("checkUsername : " + memberDTO.getUsername());
         String result = joinService.checkUsername(memberDTO);
         log.info(result);
+        return result;
+    }
+
+    @RequestMapping("/checkNickname")
+    @ResponseBody
+    public String checkNickname(String nickname) {
+        log.info("----------닉네임 중복 검사----------");
+        log.info("닉네임 : " + nickname);
+        String result = memberService.checkNickname(nickname);
+        log.info("닉네임 중복 여부 : " + result);
+        log.info("---------------------------------");
         return result;
     }
 
@@ -78,27 +91,4 @@ public class GcoachController {
         }
         return "redirect:/login";
     }
-
-//    @GetMapping("/play")
-//    public void getPlay(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) throws JsonProcessingException {
-//        log.info("getPlay..........");
-//        Optional<Member> memberResult = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
-//        Optional<Content> contentResult = contentRepository.findById(1L);
-//        if (memberResult.isPresent() && contentResult.isPresent()) {
-//            Member member = memberResult.get();
-//            Content content = contentResult.get();
-//            boolean likeCheck = likeRepository.findByMemberAndContent(member, content).isPresent();
-//            PlayDTO playDTO = PlayDTO.builder()
-//                    .mid(member.getMid())
-//                    .nickname(member.getNickname())
-//                    .cid(content.getCid())
-//                    .contentType(content.getType())
-//                    .contentName(content.getTitle())
-//                    .likeCount(content.getLikeCount())
-//                    .likeCheck(likeCheck)
-//                    .build();
-//            log.info(playDTO);
-//            model.addAttribute("dto", playDTO);
-//        }
-//    }
 }
