@@ -25,7 +25,8 @@
             if (kcode === 32) event.returnValue = false;
         }
 
-        const nickname = $(".nickname")
+        const changeNickname_form = document.changeNickname_form;
+        const nickname = changeNickname_form.nickname;
         const nicknameJ = /^[A-za-z가-힣]{2,8}$/;
         let nicknameB = false;
 
@@ -69,11 +70,11 @@
         })
 
         function changeNickname() {
-            if ($(".nickname").val() === "" || $(".nickname").val().length === 0) {
-                $(".nickname").focus();
+            if (nickname.value === "" || nickname.value.length === 0) {
+                nickname.focus();
                 $('.error_msg').text("닉네임을 입력해주세요.").css('color', 'red');
             } else if (!nicknameB) {
-                $(".nickname").focus();
+                nickname.focus();
             } else if (nicknameB) {
                 $("changeNickname_form").submit();
             }
