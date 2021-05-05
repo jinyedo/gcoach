@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 8%;
-    padding: 0px 18px 14px 14px;
+    padding: 0px 8px 14px 14px;
 }
 
 .main-header__left span {
@@ -19,6 +19,12 @@
 .main-header__left img {
     width: 107px;
     height: 21px;
+}
+
+.main-header__right-icon {
+    border: none;
+    outline: none;
+    background-color: #fff;
 }
 
 .main-header__right i {
@@ -63,6 +69,7 @@
 
 .play-header__left i {
     font-size: 28px;
+    cursor: pointer;
 }
 
 .play-header__left img {
@@ -72,4 +79,15 @@
 
 .play-header__right i {
     font-size: 28px;
+    cursor: pointer;
+}
+
+.play-header__right-icon {
+    border: none;
+    background-color: #fff;
+}
+
+.play-header__right-icon:focus {
+    border: none;
+    outline: none;
 }

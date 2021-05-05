@@ -7,8 +7,12 @@
 @import "join.css";
 @import "main.css";
 @import "choice.css";
+@import "nickname.css";
 @import "start.css";
 @import "play.css";
+@import "diary.css";
+@import "profile.css";
+@import "change.css";
 
 
 /***component***/
@@ -16,6 +20,7 @@
 @import "./components/header.css";
 @import "./components/nav.css";
 @import "./components/footer.css";
+@import "./components/search.css";
 
 /*********/
 body {

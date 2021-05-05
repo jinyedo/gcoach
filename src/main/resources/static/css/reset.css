@@ -82,9 +82,6 @@ video {
   background: transparent;
 }
 
-body {
-}
-
 article,
 aside,
 details,
@@ -155,4 +152,8 @@ table {
 input,
 select {
   vertical-align: middle;
+}
+
+input:focus {
+  outline: none;
 }
