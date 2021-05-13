@@ -36,16 +36,16 @@ public class MemberTests {
         memberRepository.save(member);
     }
 
-    @Test
-    @Transactional
-    @Commit
-    public void updateNickname() {
-        Member member = memberRepository.findByUsername("jinyedo1").orElseThrow();
-        System.out.println("변경 전 회원 정보 : " + member);
-        memberRepository.updateNickname("닉네임변경", "jinyedo1");
-        Member member2 = memberRepository.findByUsername("jinyedo1").orElseThrow();
-        System.out.println("변경 후 회원 정보 : " + member2);
-    }
+//    @Test
+//    @Transactional
+//    @Commit
+//    public void updateNickname() {
+//        Member member = memberRepository.findByUsername("jinyedo1").orElseThrow();
+//        System.out.println("변경 전 회원 정보 : " + member);
+//        memberRepository.updateNickname("닉네임변경", "jinyedo1");
+//        Member member2 = memberRepository.findByUsername("jinyedo1").orElseThrow();
+//        System.out.println("변경 후 회원 정보 : " + member2);
+//    }
 
     @Test
     public void passwordEquals() {

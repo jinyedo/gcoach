@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
@@ -60,7 +60,7 @@
         </div>
         <div class="profile-container">
             <div class="profile-btn"><a th:href="@{/profile_changeNickname}"><button>닉네임 변경</button></a></div>
-            <div class="profile-btn"><a th:href="@{/profile_changePassword}"><button>비밀번호 변경</button></a></div>
+            <div th:if="${!memberDTO.formSocial}" class="profile-btn"><a th:href="@{/profile_changePassword}"><button>비밀번호 변경</button></a></div>
             <div class="profile-btn"><a th:href="@{/profile_changeInterest}"><button>관심리스트 변경</button></a></div>
             <div class="profile-btn"><a th:href="@{/profile_changeEmotion}"><button>감정 변경</button></a></div>
             <div class="profile-btn"><button>로그아웃</button></div>

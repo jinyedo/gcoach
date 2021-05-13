@@ -20,14 +20,14 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findMemberByNickname(String nickname);
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE Member m SET m.nickname = :nickname WHERE m.username = :username")
-    void updateNickname(String nickname, String username);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Member m SET m.password = :password WHERE m.username = :username")
-    void updatePassword(String password, String username);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Member m SET m.nickname = :nickname WHERE m.username = :username")
+//    void updateNickname(String nickname, String username);
+//
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Member m SET m.password = :password WHERE m.username = :username")
+//    void updatePassword(String password, String username);
 }
 

@@ -22,7 +22,7 @@
 </div>
 
 <div class="contents-play-audio">
-    <audio class="contents-play-audio" controls autoplay>
+    <audio class="contents-play-audio" id="audioPlay" controls autoplay>
         <source th:src="@{'/stream/' + ${dto.contentName}}" type="audio/mp3">
     </audio>
 </div>
@@ -165,6 +165,9 @@
             $(".play-likes").html(str);
         }
     })
+
+    const audioPlay = document.querySelector("#audioPlay");
+    console.log(audioPlay.startDate);
 </script>
 </body>
 </html>

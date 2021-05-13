@@ -1,18 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
-    <title>닉네임 변경</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <title>닉네임 변경하기</title>
 </head>
 <body>
-    <h1>닉네임 변경</h1>
-    <form th:action="@{/profile_changeNickname}" th:method="POST" name="changeNickname_form">
-        <input type="text" class="nickname" name="nickname" onkeydown="checkSpace()">
-        <span class="error_msg"></span> <br>
-        <input type="submit" value="변경하기" onclick="changeNickname()">
-    </form>
+    <div class="G-COACH__title-s">
+        <img th:src="@{/images/logo.png}">
+    </div>
 
-    <script src="jquery/jquery.min.js"></script>
+    <main class="serve-screen">
+        <div class="nickname__title">
+            <h1>변경하실 닉네임을 입력하세요.</h1>
+        </div>
+        <form th:action="@{/profile_changeNickname}" th:method="POST" name="changeNickname_form">
+            <div id="nickname_form">
+                <h3>닉네임 변경&nbsp;&nbsp;&nbsp;<span class="error_msg"></span></h3>
+                <input type="text" class="nickname" name="nickname" onkeydown="checkSpace()">
+            </div>
+            <div class="complete-button">
+                <input type="button" value="변경" onclick="changeNickname()">
+            </div>
+        </form>
+    </main>
+
+    <script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
+    <script th:src="@{jquery/jquery.min.js}"></script>
     <script th:inline="javascript">
         const msg = [[${msg}]];
         if (msg !== null && msg !== "") {
@@ -76,7 +92,7 @@
             } else if (!nicknameB) {
                 nickname.focus();
             } else if (nicknameB) {
-                $("changeNickname_form").submit();
+                changeNickname_form.submit();
             }
         }
     </script>

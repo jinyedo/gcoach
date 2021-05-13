@@ -145,20 +145,37 @@ public class ProfileController {
         log.info("변경할 관심사 : " + interest);
         member.setInterest(interest);
         memberRepository.save(member);
+        log.info("변경 후 회원의 관심사 : " + member.getInterest());
         MemberDTO memberDTO = entityToDto(member);
-        log.info("변경 후 회원의 관심사 : " + memberDTO.getInterest());
         model.addAttribute("msg", "관심사 변경이 완료되었습니다.");
         model.addAttribute("memberDTO", memberDTO);
         return "/profile_main";
     }
 /* ***** */
 
+/* 감정 변경 페이지 */
     @GetMapping("/profile_changeEmotion")
     public void getChangeEmotion() {
         log.info("getChangeEmotion..........");
     }
 
-    // 로그인한 회원 정보를 MemberDTO 로 변환
+    @PostMapping("/profile_changeEmotion")
+    public String postChangeEmotion(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, String emotion, Model model) {
+        log.info("postChangeEmotion..........");
+        Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
+        log.info("기존 회원의 감정 : " + member.getEmotion());
+        log.info("변경할 감정 : " + emotion);
+        member.setEmotion(emotion);
+        memberRepository.save(member);
+        log.info("변경 후 회원의 감정 : " + member.getEmotion());
+        MemberDTO memberDTO = entityToDto(member);
+        model.addAttribute("msg", "감정 변경이 완료되었습니다.");
+        model.addAttribute("memberDTO", memberDTO);
+        return "/profile_main";
+    }
+/* ***** */
+
+
     private MemberDTO authMemberDtoToMemberDto(@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
         return MemberDTO.builder()
@@ -167,6 +184,7 @@ public class ProfileController {
                 .nickname(member.getNickname())
                 .name(member.getName())
                 .phone(member.getPhone())
+                .formSocial(member.isFormSocial())
                 .build();
     }
 
