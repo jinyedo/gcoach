@@ -3,8 +3,10 @@ package com.candlebe.gcoach.controller;
 import com.candlebe.gcoach.dto.InterestDTO;
 import com.candlebe.gcoach.dto.PlayDTO;
 import com.candlebe.gcoach.entity.Content;
+import com.candlebe.gcoach.entity.History;
 import com.candlebe.gcoach.entity.Member;
 import com.candlebe.gcoach.repository.ContentRepository;
+import com.candlebe.gcoach.repository.HistoryRepository;
 import com.candlebe.gcoach.repository.LikeRepository;
 import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.security.dto.AuthMemberDTO;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.lang.reflect.Array;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +39,7 @@ public class MainController {
     private final MemberRepository memberRepository;
     private final ContentRepository contentRepository;
     private final LikeRepository likeRepository;
+    private final HistoryRepository historyRepository;
 
     //메인(호흡훈련)으로 이동
     @GetMapping("/")
@@ -177,6 +181,13 @@ public class MainController {
                 .likeCount(likeCount)
                 .likeCheck(likeCheck)
                 .build();
+
+        History history = History.builder()
+                .member(member)
+                .content(content)
+                .build();
+        historyRepository.save(history);
+
         log.info("playDTO : " + playDTO);
         log.info("contents : " + contents);
         model.addAttribute("dto", playDTO);

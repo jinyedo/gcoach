@@ -9,42 +9,42 @@
     <title>회원가입</title>
   </head>
   <body>
-  <div class="G-COACH__title">
-    <img src="images/logo.png">
-  </div>
-
-  <main class="serve-screen">
-    <div class="join-form__title">
-      <h1>회원가입</h1>
+    <div class="G-COACH__title">
+      <img src="images/logo.png">
     </div>
 
-    <form th:action="@{/join}" th:method="POST" th:object="${memberDTO}" class="signup" id="join-form" name="join_form" >
-      <span>아이디&nbsp;&nbsp;&nbsp;<span id="E_username" style="font-size: 16px"></span></span>
-      <input type="text" class="input_1 username" name="username" th:value="${memberDTO.username}"
-             onkeydown="checkSpace()" placeholder="영문 또는 숫자가 포함된 6~18자의 형식으로 입력해주세요."/>
+    <main class="serve-screen">
+      <div class="join-form__title">
+        <h1>회원가입</h1>
+      </div>
 
-      <span>비밀번호&nbsp;&nbsp;&nbsp;<span id="E_password" style="font-size: 16px"></span></span>
-      <input type="password" class="input_1 password" name="password" th:value="${memberDTO.password}"
-             onkeydown="checkSpace()" placeholder="영문 숫자 특수기호가 포함된 8~20자의 형식으로 입력해주세요."/>
+      <form th:action="@{/join}" th:method="POST" th:object="${memberDTO}" class="signup" id="join-form" name="join_form" >
+        <span>아이디&nbsp;&nbsp;&nbsp;<span id="E_username" style="font-size: 16px"></span></span>
+        <input type="text" class="input_1 username" name="username" th:value="${memberDTO.username}"
+               onkeydown="checkSpace()" placeholder="영문 또는 숫자가 포함된 6~18자의 형식으로 입력해주세요."/>
 
-      <span>비밀번호 확인&nbsp;&nbsp;&nbsp;<span id="E_confirmPassword" style="font-size: 16px"></span></span>
-      <input type="password" class="input_1 confirmPassword" name="confirmPassword" onkeydown="checkSpace()" />
-      <input type="hidden" name="checkPassword" th:value="${false}">
+        <span>비밀번호&nbsp;&nbsp;&nbsp;<span id="E_password" style="font-size: 16px"></span></span>
+        <input type="password" class="input_1 password" name="password" th:value="${memberDTO.password}"
+               onkeydown="checkSpace()" placeholder="영문 숫자 특수기호가 포함된 8~20자의 형식으로 입력해주세요."/>
 
-      <span>이름&nbsp;&nbsp;&nbsp;<span id="E_name" style="font-size: 16px"></span></span>
-      <input type="text" class="input_1 name" name="name" th:value="${memberDTO.name}" onkeydown="checkSpace()" />
+        <span>비밀번호 확인&nbsp;&nbsp;&nbsp;<span id="E_confirmPassword" style="font-size: 16px"></span></span>
+        <input type="password" class="input_1 confirmPassword" name="confirmPassword" onkeydown="checkSpace()" />
+        <input type="hidden" name="checkPassword" th:value="${false}">
 
-      <span>닉네임&nbsp;&nbsp;&nbsp;<span id="E_nickname" style="font-size: 16px"></span></span>
-      <input type="text" class="input_1 nickname" name="nickname" th:value="${memberDTO.nickname}"
-             onkeydown="checkSpace()" placeholder="영문 또는 한글이 포함된 2~8자의 형식으로 입력해주세요."/>
+        <span>이름&nbsp;&nbsp;&nbsp;<span id="E_name" style="font-size: 16px"></span></span>
+        <input type="text" class="input_1 name" name="name" th:value="${memberDTO.name}" onkeydown="checkSpace()" />
 
-      <span>전화번호&nbsp;&nbsp;&nbsp;<span id="E_phone" style="font-size: 16px "></span></span>
-      <input type="text" class="input_1 phone" name="phone" th:value="${memberDTO.phone}"
-             onkeydown="checkSpace()" placeholder="-를 제외한 형식으로 입력해주세요."/>
+        <span>닉네임&nbsp;&nbsp;&nbsp;<span id="E_nickname" style="font-size: 16px"></span></span>
+        <input type="text" class="input_1 nickname" name="nickname" th:value="${memberDTO.nickname}"
+               onkeydown="checkSpace()" placeholder="영문 또는 한글이 포함된 2~8자의 형식으로 입력해주세요."/>
 
-      <input type="button" class="submit" value="회원가입" onclick="join()">
-    </form>
-  </main>
+        <span>전화번호&nbsp;&nbsp;&nbsp;<span id="E_phone" style="font-size: 16px "></span></span>
+        <input type="text" class="input_1 phone" name="phone" th:value="${memberDTO.phone}"
+               onkeydown="checkSpace()" placeholder="-를 제외한 형식으로 입력해주세요."/>
+
+        <input type="button" class="submit" value="회원가입" onclick="join()">
+      </form>
+    </main>
     <script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
     <script src="jquery/jquery.min.js"></script>
     <script th:inline="javascript">

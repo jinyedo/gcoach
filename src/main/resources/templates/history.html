@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+</head>
+<body>
+    <div th:each="history : ${histories}">
+        <a th:href="@{/{id}/play (id=${history.content.cid})}"><div class="main-screen__content">
+            <div class="main-screen__content-column">
+                <div class="main-screen__thumbnail">
+                    <img src="/images/thumbnail_example.jpg" alt="">
+                </div>
+            </div>
+            <div class="main-screen__content-column">
+                <h5 class="main-screen__content-title" th:text="${history.content.title}">동영상제목</h5>
+                <h6 class="main-screen__content-text">동영상내용입니다.</h6>
+                <h6 class="main-screen__content-hashtag">#해시태그 #동영상 #기초</h6>
+                <h6 class="main-screen__content-hashtag" th:text="${history.regDate}"></h6>
+            </div>
+        </div></a>
+    </div>
+</body>
+</html>
