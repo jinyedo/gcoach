@@ -11,6 +11,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
     @Query("SELECT MAX(h) FROM History h " +
             "WHERE h.member = :member " +
-            "GROUP BY h.content")
+            "GROUP BY h.content " +
+            "ORDER BY MAX(h) DESC")
     List<History> getHistoryWithAll(Member member);
 }

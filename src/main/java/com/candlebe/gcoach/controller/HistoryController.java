@@ -1,7 +1,6 @@
 package com.candlebe.gcoach.controller;
 
-import com.candlebe.gcoach.dto.HistoryDTO;
-import com.candlebe.gcoach.entity.Content;
+
 import com.candlebe.gcoach.entity.History;
 import com.candlebe.gcoach.entity.Member;
 import com.candlebe.gcoach.repository.HistoryRepository;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
