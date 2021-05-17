@@ -54,8 +54,8 @@
         <div class="profile-container">
             <div class="profile-data">
                 <h1>닉네임 : [[${memberDTO.nickname}]]</h1>
-                <h3> 총 명상 시간 : 00시간 00분</h3>
-                <h3>level : bronze</h3>
+                <h1>관심사 : [[${memberDTO.interest}]]</h1>
+                <h1>감정 : [[${memberDTO.emotion}]]</h1>
             </div>
         </div>
         <div class="profile-container">
@@ -63,7 +63,7 @@
             <div th:if="${!memberDTO.formSocial}" class="profile-btn"><a th:href="@{/profile_changePassword}"><button>비밀번호 변경</button></a></div>
             <div class="profile-btn"><a th:href="@{/profile_changeInterest}"><button>관심리스트 변경</button></a></div>
             <div class="profile-btn"><a th:href="@{/profile_changeEmotion}"><button>감정 변경</button></a></div>
-            <div class="profile-btn"><button>로그아웃</button></div>
+            <div class="profile-btn"><button onclick="logout()">로그아웃</button></div>
         </div>
     </div>
 </main>
@@ -81,6 +81,13 @@
     const msg = [[${msg}]];
     if (msg !== null && msg !== "") {
         alert(msg);
+    }
+
+    function logout() {
+        const result = confirm("정말로 로그아웃 하시겠습니까?");
+        if (result) {
+            parent.location.href="/logout"
+        }
     }
 </script>
 </body>

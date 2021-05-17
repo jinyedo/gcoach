@@ -256,7 +256,12 @@
           phone.focus();
           $('#E_phone').text("필수 정보입니다.").css('color', 'red');
         } else if (usernameB && passwordB && confirmPasswordB && nameB && nicknameB && phoneB) {
-          join_form.submit();
+          if (password.value === confirmPassword.value) {
+            join_form.submit();
+          } else {
+            confirmPassword.focus();
+            $('#E_confirmPassword').text("비밀번호가 일치하지 않습니다.").css('color', 'red');
+          }
         }
       }
     </script>

@@ -185,6 +185,9 @@ public class ProfileController {
                 .name(member.getName())
                 .phone(member.getPhone())
                 .formSocial(member.isFormSocial())
+                .socialType(member.getSocialType())
+                .interest(member.getInterest())
+                .emotion(member.getEmotion())
                 .build();
     }
 
