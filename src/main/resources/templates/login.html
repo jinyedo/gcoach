@@ -19,21 +19,25 @@
 
         <form th:action="@{/login}" th:method="POST" id="login-form">
             <span>아이디</span>
-            <input name="username" type="text" placeholder="abc@gmail.com" />
+            <input name="username" type="text" />
             <span>비밀번호</span>
-            <input name="password" type="password" placeholder="영문, 숫자, 특수문자"/>
-            <label><input type="checkbox" name="auto-login"> 로그인상태유지</label>
+            <input name="password" type="password" />
+            <label><input type="checkbox" name="auto-login">로그인상태유지</label>
             <input type="submit" value="로그인" />
 
             <!-- 구글 로그인 -->
-            <a href="/oauth2/authorization/google">
-                <img src="/images/btn_google_signin_light_normal_web.png" alt="" class="google-button">
-            </a>
-
-            <a href="find_pw.html">비밀번호를 잊으셨나요?</a>
+            <div class="googlebtn">
+                <a class="oauth-container btn darken-4 white black-text" th:href="@{/oauth2/authorization/google}">
+                    <div class="inside">
+                        <img alt="Google sign-in"
+                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        <span>Login with Google</span>
+                    </div>
+                </a>
+            </div>
         </form>
 
-        <div id="join-form">
+        <div class="join-form">
             <a th:href="@{/join}">회원으로 가입하시겠어요?</a>
         </div>
     </main>
