@@ -13,34 +13,21 @@ import java.util.Optional;
 @Log4j2
 @RequiredArgsConstructor
 public class ChoiceEmotionService {
+
     private final MemberRepository memberRepository;
 
-    // 감정 추가
     @Transactional
-    public void choiceEmotion(String name, String emotion, boolean social) {
-        Optional<Member> byUsername = memberRepository.findByUsername(name, true);
-        Member member;
-        if (byUsername.isEmpty()) {
-            Optional<Member> findMember = memberRepository.findByUsername(name);
-            member = findMember.get();
-        } else {
-            member = byUsername.get();
-        }
+    public void choiceEmotion(String userName, String emotion) {
+        Optional<Member> result = memberRepository.findByUsername(userName);
+        Member member = result.get();
 
         member.setEmotion(emotion);
     }
 
-    // 사용자가 감정을 선택했는지 조회
-    public boolean isEmotion(String name, boolean social) {
-        Optional<Member> byUsername = memberRepository.findByUsername(name, social);
-        Member member;
-        if (byUsername.isEmpty()) {
-            Optional<Member> findMember = memberRepository.findByUsername(name);
-            member = findMember.get();
-        } else {
-            member = byUsername.get();
-        }
-        if (member.getEmotion() == "" || member.getEmotion() == null) {
+    public boolean isEmotion(String userName) {
+        Optional<Member> result = memberRepository.findByUsername(userName);
+        String emotion = result.get().getEmotion();
+        if (emotion == "" || emotion == null) {
             return false;
         } else {
             return true;

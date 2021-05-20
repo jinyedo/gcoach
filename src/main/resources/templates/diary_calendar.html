@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/calendar.css}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, 
+  maximum-scale=1.0, minimum-scale=1.0">
+    <title>다이어리</title>
+    <script language="JavaScript">
+        function submit() {
+            with (document.searchForm) {
+                if (inputSearch.value.length == 0) {
+                    alert("검색어를 입력해 주세요!!");
+                    inputSearch.focus();
+                    return false;
+                }
+                document.searchForm.submit();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="main-header__left">
+            <span><a href="sidebar.html"><i class="fas fa-bars fa-sm"></i></a></span>
+            <a href="/"><img th:src="@{/images/logo.png}"></a>
+        </div>
+        <div class="main-header__right">
+            <form name="searchForm" th:action="@{/search}" th:method="get" th:object="${searchDTO}">
+                <input class="main-header__right-input" name="" type="text" placeholder="">
+                <button class="main-header__right-icon" name="" type="submit" value=""><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </header>
+
+    <nav class="diary-navbar">
+        <ul class="diary-nav__ul">
+            <li class="diary-nav__li"><p class="diary-nav__p">다이어리</p></li>
+        </ul>
+    </nav>
+
+    <main class="serve-screen__calendar">
+        <div class="calendar">
+            <div class="calendar-header">
+                <div class="header-month"></div>
+                <div class="nav">
+                    <button class="nav-btn prev-btn" onclick="prevMonth()">&lt;</button>
+                    <button class="nav-btn today-btn" onclick="goToday()">Today</button>
+                    <button class="nav-btn next-btn" onclick="nextMonth()">&gt;</button>
+                </div>
+            </div>
+            <div class="calendar-main">
+                <div class="days">
+                    <div class="day">SUN</div>
+                    <div class="day">MON</div>
+                    <div class="day">TUE</div>
+                    <div class="day">WED</div>
+                    <div class="day">THU</div>
+                    <div class="day">FRI</div>
+                    <div class="day">SAT</div>
+                </div>
+                <div class="dates"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <a href="#"><p class="footer__text">회사소개</p></a>
+        <a href="#"><p class="footer__text">개인정보 처리방침</p></a>
+        <a href="#"><p class="footer__text">서비스 이용약관</p></a>
+        <a href="#"><p class="footer__text">청소년 보호정책</p></a>
+    </footer>
+</body>
+<script th:src="@{https://kit.fontawesome.com/d1dbd1f9d9.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/calendar.js}"></script>
+</html>

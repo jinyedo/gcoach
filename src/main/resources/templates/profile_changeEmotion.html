@@ -10,12 +10,12 @@
 </head>
 <body>
     <div class="G-COACH__title-s">
-        <img src="images/logo.png">
+        <img th:src="@{/images/logo.png}">
     </div>
 
     <div class="choice__title">
         <h1>감정의 변화가 있었나요?</h1>
-        <span>일주일간 느낀 감정을 선택해주세요.</span>
+        <span>변경하실 감정을 선택해주세요.</span>
     </div>
 
     <form th:action="@{/profile_changeEmotion}"  th:method="POST" id="emotion-form">
@@ -33,6 +33,6 @@
         </div>
     </form>
 
-<script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
+    <script th:src="@{https://kit.fontawesome.com/d1dbd1f9d9.js}" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -100,7 +100,7 @@
 }
 
 .google-button {
-    width: 100%;
+  width: 100%;
 }
 
 
@@ -296,11 +296,11 @@
   #login-form a {
     font-size: 14px;
   }
-  
+
   .google-button {
     height: 35px;
   }
-  
+
   .link-form {
     margin-top: 20px;
     margin-bottom: 60px;

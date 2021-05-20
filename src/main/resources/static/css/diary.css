@@ -67,6 +67,21 @@
 
 .diary-container {
     margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+}
+
+.diary-container input[type="submit"] {
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    background-color: #55576f;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    width: 20%;
+    height: 30px;
 }
 
 .diary-subtitle {

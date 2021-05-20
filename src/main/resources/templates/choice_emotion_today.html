@@ -14,11 +14,11 @@
 </div>
 
 <div class="choice__title">
-    <h1>최근 어떤 감정을 느끼셨나요?</h1>
-    <span>일주일간 느낀 감정을 선택해주세요.</span>
+    <h1>오늘은 어떤 감정을 느끼셨나요?</h1>
+    <span>오늘의 감정을 선택해주세요.</span>
 </div>
 
-<form th:action="@{/choice/emotion}" th:object="${emotionDTD}" method="post" id="emotion-form">
+<form th:action="@{/chiceTodayEmotion}" th:object="${todayEmotionDTO}" method="post" id="emotion-form">
     <div class="emotion-form__column">
         <button type="submit" name="emotion" value="즐거움"><i class="fas fa-grin-squint fa-lg"></i><p>즐거움</p></button>
         <button type="submit" name="emotion" value="분노"><i class="fas fa-angry fa-lg"></i><p>분노</p></button>

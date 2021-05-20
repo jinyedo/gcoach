@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>G-Coach</title>
+    <script language="JavaScript">
+        function submit() {
+            with (document.searchForm) {
+                if (inputSearch.value.length == 0) {
+                    alert("검색어를 입력해 주세요!!");
+                    inputSearch.focus();
+                    return false;
+                }
+                document.searchForm.submit();
+
+            }
+        }
+    </script>
 </head>
 <body>
 <header class="play-header">
     <div class="play-header__left">
         <span><a href="sidebar.html"><i class="fas fa-bars fa-sm"></i></a></span>
-        <a th:href="@{/}"><img src="/images/logo.png"></a>
+        <a th:href="@{/}"><img th:src="@{/images/logo.png}"></a>
     </div>
-    <a class="play-header__right" href="search.html"><i class="fas fa-search"></i></a>
+    <div class="main-header__right">
+        <form name="searchForm" th:action="@{/search}" th:method="get" th:object="${searchDTO}">
+            <input class="main-header__right-input" name="inputSearch" type="text" placeholder="검색어를 입력해주세요.">
+            <!--                <input class="main-header__right-icon" name="" type="submit" value=""><i class="fas fa-search"></i></input>-->
+            <button class="main-header__right-icon" name="" onclick="submit();" value=""><i class="fas fa-search"></i></button>
+        </form>
+    </div>
 </header>
 
 <div class="contents-play-screen">
-    <div class="play-background"></div>
+    <div class="play-background">
+        <img th:src="@{'/stream/' + ${dto.imgOriginalName}}" alt="">
+    </div>
     <!-- 백그라운드 변경 ????????? -->
 </div>
 
@@ -70,8 +91,8 @@
     <a href="#"><p class="footer__text">청소년 보호정책</p></a>
 </footer>
 
-<script src="/jquery/jquery.min.js"></script>
-<script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
+<script th:src="@{https://kit.fontawesome.com/d1dbd1f9d9.js}" crossorigin="anonymous"></script>
+<script th:src="@{/jquery/jquery.min.js}"></script>
 <script th:inline="javascript">
     $(document).ready(function (e) {
         const cid = [[${dto.cid}]];

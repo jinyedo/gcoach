@@ -17,6 +17,7 @@ public class PlayDTO {
     private Long cid;
     private String contentName;
     private String contentType;
+    private String imgOriginalName;
 
     int likeCount;
     boolean likeCheck;

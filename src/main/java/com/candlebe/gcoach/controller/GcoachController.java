@@ -59,7 +59,7 @@ public class GcoachController {
     @GetMapping("/join")
     public String getJoin(MemberDTO memberDTO) {
         log.info("getJoin..........");
-        return "/join";
+        return "join";
     }
 
     @PostMapping("/join")
@@ -77,7 +77,7 @@ public class GcoachController {
             }
             log.info("----------------------------");
 
-            return "/join";
+            return "join";
         }
 
         String result = joinService.join(memberDTO);

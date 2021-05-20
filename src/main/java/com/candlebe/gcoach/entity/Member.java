@@ -3,7 +3,9 @@ package com.candlebe.gcoach.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -12,8 +14,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = "roleSet")
-public class Member extends BaseEntity{
+@ToString(exclude = {"roleSet", "diaryList"})
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +44,9 @@ public class Member extends BaseEntity{
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>(); // 권한
 
+    @OneToMany(mappedBy = "member")
+    private List<Diary> diaryList = new ArrayList<>();
+
     public void addMemberRole(MemberRole memberRole) {
         roleSet.add(memberRole);
     }
@@ -53,4 +58,5 @@ public class Member extends BaseEntity{
     public void setEmotion(String emotion) {
         this.emotion = emotion;
     }
+
 }

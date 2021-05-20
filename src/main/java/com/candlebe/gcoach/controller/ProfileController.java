@@ -76,7 +76,7 @@ public class ProfileController {
             MemberDTO memberDTO2 = entityToDto(member);
             model.addAttribute("msg", "닉네임 변경이 완료되었습니다.");
             model.addAttribute("memberDTO", memberDTO2);
-            return "/profile_main";
+            return "profile_main";
         }
     }
 /* ***** */
@@ -115,7 +115,7 @@ public class ProfileController {
             MemberDTO memberDTO2 = entityToDto(member);
             model.addAttribute("msg", "비밀번호 변경이 완료되었습니다.");
             model.addAttribute("memberDTO", memberDTO2);
-            return "/profile_main";
+            return "profile_main";
         }
     }
 
@@ -149,7 +149,7 @@ public class ProfileController {
         MemberDTO memberDTO = entityToDto(member);
         model.addAttribute("msg", "관심사 변경이 완료되었습니다.");
         model.addAttribute("memberDTO", memberDTO);
-        return "/profile_main";
+        return "profile_main";
     }
 /* ***** */
 
@@ -171,7 +171,7 @@ public class ProfileController {
         MemberDTO memberDTO = entityToDto(member);
         model.addAttribute("msg", "감정 변경이 완료되었습니다.");
         model.addAttribute("memberDTO", memberDTO);
-        return "/profile_main";
+        return "profile_main";
     }
 /* ***** */
 

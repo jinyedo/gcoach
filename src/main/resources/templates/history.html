@@ -8,6 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no,
   maximum-scale=1.0, minimum-scale=1.0">
     <title>히스토리</title>
+    <script language="JavaScript">
+        function submit() {
+            with (document.searchForm) {
+                if (inputSearch.value.length == 0) {
+                    alert("검색어를 입력해 주세요!!");
+                    inputSearch.focus();
+                    return false;
+                }
+                document.searchForm.submit();
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -17,9 +29,9 @@
         <a href="./main.html"><img th:src="@{/images/logo.png}"></a>
     </div>
     <div class="main-header__right">
-        <form action="#">
-            <input class="main-header__right-input" name="" type="text" placeholder="">
-            <input class="main-header__right-icon" name="" type="submit" value=""><i class="fas fa-search"></i></input>
+        <form name="searchForm" th:action="@{/search}" th:method="get" th:object="${searchDTO}">
+            <input class="main-header__right-input" name="search" type="text" placeholder="검색어를 입력해주세요.">
+            <button class="main-header__right-icon" name="" type="submit" value=""><i class="fas fa-search"></i></button>
         </form>
     </div>
 </header>
@@ -37,14 +49,13 @@
                 <div class="main-screen__content">
                     <div class="main-screen__content-column">
                         <div class="main-screen__thumbnail">
-                            <img th:src="@{/images/thumbnail_example.jpg}" alt="">
+                            <img th:src="@{'/stream/' + ${history.content.imgOriginalName}}" alt="">
                         </div>
                     </div>
                     <div class="main-screen__content-column">
                         <h5 class="main-screen__content-title" th:text="${history.content.title}">동영상제목</h5>
-                        <h6 class="main-screen__content-text">동영상내용입니다.</h6>
-                        <h6 class="main-screen__content-hashtag">#해시태그 #동영상 #기초</h6>
-                        <h6 class="main-screen__content-date">[[${#temporals.format(history.regDate, 'yyyy/MM/dd hh:mm:ss')}]]</h6>
+                        <h6 class="main-screen__content-hashtag" th:text="${history.content.getCategory1()} + ${history.content.getCategory2()} + ${history.content.getCategory3()}"></h6>
+                        <h6 class="main-screen__content-text">[[${#temporals.format(history.regDate, 'yyyy/MM/dd hh:mm:ss')}]]</h6>
                     </div>
                 </div>
             </div>
@@ -58,8 +69,6 @@
     <a href="#"><p class="footer__text">서비스 이용약관</p></a>
     <a href="#"><p class="footer__text">청소년 보호정책</p></a>
 </footer>
+<script th:src="@{https://kit.fontawesome.com/d1dbd1f9d9.js}" crossorigin="anonymous"></script>
 </body>
-<script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
-<script src="./js/jquery.min.js"></script>
-<script src="./js/calendar.js"></script>
 </html>

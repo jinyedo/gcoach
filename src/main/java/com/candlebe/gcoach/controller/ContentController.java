@@ -25,7 +25,7 @@ public class ContentController {
     @GetMapping("/uploadForm")
     public String listUploadedFiles(Model model) throws IOException {
 
-        model.addAttribute("contentDTO", new ContentUploadDTO());
+        model.addAttribute("contentUploadDTO", new ContentUploadDTO());
 
         return "contentUpload";
     }
@@ -33,10 +33,11 @@ public class ContentController {
     //Upload
     @PostMapping("/uploadForm")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam("img") MultipartFile img,
                                    RedirectAttributes redirectAttributes,
                                    ContentUploadDTO dto) {
 
-        contentService.save(file, dto);
+        contentService.save(file, img, dto);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
@@ -60,7 +61,7 @@ public class ContentController {
         log.info("파일 확장자 확인 : " + Arrays.toString(filenameSeparate));
 
         // 확장자 명이 없거나 mp3 형식이 아니라면 예외 발생
-        if (filenameSeparate.length <= 1 || !filenameSeparate[1].equals("mp3")) throw new RuntimeException("ERROR!!! 파일 형식 오류");
+        //if (filenameSeparate.length <= 1 || !filenameSeparate[1].equals("mp3")) throw new RuntimeException("ERROR!!! 파일 형식 오류");
 
         // 해당 파일이 없을 경우 예외 발생
         File file = new File(path + contentName);

@@ -15,4 +15,7 @@ public class ContentUploadDTO {
 
     private String path;
     private String originalName;
+
+    private String imgPath;
+    private String imgOriginalName;
 }

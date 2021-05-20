@@ -34,32 +34,51 @@ public class ContentService {
     }
 
     // 콘텐츠 파일 저장
-    public Content save(MultipartFile file, ContentUploadDTO dto) {
+    public Content save(MultipartFile file, MultipartFile img,ContentUploadDTO dto) {
         try {
+            // file == mp3
+            // img 추가
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
-            Path destinationFile = this.rootLocation.resolve(
+            if (img.isEmpty()) {
+                throw new StorageException("Failed to store empty img.");
+            }
+            Path filePath = this.rootLocation.resolve(
                     Paths.get(file.getOriginalFilename()))
                     .normalize().toAbsolutePath();
-            System.out.println(destinationFile);
-            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+            Path imgPath = this.rootLocation.resolve(
+                    Paths.get(img.getOriginalFilename()))
+                    .normalize().toAbsolutePath();
+            if (!filePath.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(
                         "Cannot store file outside current directory.");
             }
+            if (!imgPath.getParent().equals(this.rootLocation.toAbsolutePath())) {
+                // This is a security check
+                throw new StorageException(
+                        "Cannot store img outside current directory.");
+            }
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile,
+                Files.copy(inputStream, filePath,
                         StandardCopyOption.REPLACE_EXISTING);
             }
+            try (InputStream inputStream = img.getInputStream()) {
+                Files.copy(inputStream, imgPath,
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+
             Content content = new Content(
                     dto.getCategory1(),
                     dto.getCategory2(),
                     dto.getCategory3(),
                     dto.getTitle(),
-                    destinationFile.toString(),
-                    file.getOriginalFilename());
-
+                    filePath.toString(),
+                    file.getOriginalFilename(),
+                    imgPath.toString(),
+                    img.getOriginalFilename()
+            );
             return contentRepository.save(content);
         }
         catch (IOException e) {
@@ -67,7 +86,12 @@ public class ContentService {
         }
     }
 
-/* 콘텐츠 조회 */
+    // 받아온 검색어로 콘텐츠 제목 검색 후 리턴
+    public List<Content> findBySearch(String search) {
+        return contentRepository.findBySearch(search);
+    }
+
+    /* 콘텐츠 조회 */
     // 해당 카테고리로 콘텐츠 조회 후 카테고리에 맞는 콘텐츠 리스트 리턴
     public List<Content> findContentsByCategory(String category) {
         return contentRepository.findByCategory(category);
@@ -85,7 +109,6 @@ public class ContentService {
     public List<Content> findContentsForUser(String interest, String emotion) {
         return contentRepository.findByUsers(interest, emotion);
     }
-/* ***** */
 
     public Optional<Content> findOne(Long id) {
         return contentRepository.findById(id);

@@ -1,3 +1,4 @@
+
 .delete-account__text {
     text-align: center;
     height: 180px;
@@ -20,7 +21,7 @@
     justify-content: space-between;
     padding: 0px 28px;
 }
-  
+
 .delete-button__container input {
     margin: 15px 0;
     background-color: #172853;

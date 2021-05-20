@@ -33,4 +33,7 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
     @Query("SELECT t FROM Content t WHERE t.cid = :id")
     Optional<Content> findById(Long id);
 
+    // 검색 기능
+    @Query("SELECT t from Content t WHERE t.title LIKE %:search%")
+    List<Content> findBySearch(String search);
 }

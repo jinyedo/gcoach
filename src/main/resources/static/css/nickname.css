@@ -53,26 +53,14 @@
     font-weight: bold;
 }
 
-#nickname_form input[type="submit"] {
-    border-radius: 10px;
-    background-color: #172853;
-    color: #fff;
-    width: 160px;
-    height: 50px;
-    cursor: pointer;
-    margin: 0 auto;
-    margin-top: 64px;
-    margin-left: 500px;
-}
-
-#next-button {
+.next-button {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
 }
   
-#next-button input[type="submit"] {
+.next-button input {
     margin: 15px 0;
     background-color: #172853;
     border-radius: 10px;
@@ -84,24 +72,6 @@
     font-size: 18px;
 }
 
-#complete-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-}
-  
-#complete-button input {
-    margin: 15px 0;
-    background-color: #172853;
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    border: none;
-    width: 40%;
-    height: 45px;
-    font-size: 18px;
-}
 
 @media screen and (max-width: 400px) {
     .nickname__title h1 {

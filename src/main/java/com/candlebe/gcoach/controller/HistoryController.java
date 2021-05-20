@@ -31,6 +31,6 @@ public class HistoryController {
         Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
         List<History> histories = historyRepository.getHistoryWithAll(member);
         model.addAttribute("histories", histories);
-        return "/history";
+        return "history";
     }
 }

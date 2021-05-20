@@ -12,6 +12,13 @@
     outline: none;
 }
 
+.main-header__right-icon {
+    border: none;
+    outline: none;
+    background-color: #fff;
+}
+
+/***
 .search {
     position: absolute;
     margin-right: 20px;
@@ -31,7 +38,7 @@
     padding-left: 10px;
 }
 
-/***
+
 .search-column2 {
     display: flex;
     justify-content: space-between;
@@ -39,7 +46,7 @@
     padding-left: 10px;
     border-top: solid 1px rgba(0, 0, 0, 0.5);
 }
-***/
+
 
 .search_container h1 {
     color: #000;
@@ -59,6 +66,7 @@
 .search_container {
     display: none;
 }
+***/
 
 @media screen and (min-width:720px) {
     .search {

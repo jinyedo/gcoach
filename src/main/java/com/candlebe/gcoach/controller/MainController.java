@@ -2,6 +2,7 @@ package com.candlebe.gcoach.controller;
 
 import com.candlebe.gcoach.dto.InterestDTO;
 import com.candlebe.gcoach.dto.PlayDTO;
+import com.candlebe.gcoach.dto.SearchDTO;
 import com.candlebe.gcoach.entity.Content;
 import com.candlebe.gcoach.entity.History;
 import com.candlebe.gcoach.entity.Member;
@@ -78,7 +79,7 @@ public class MainController {
             findName = principal.getName();
             social = false;
 
-        // 소셜 사용자
+            // 소셜 사용자
         } else {
             findName = userDetails.getUsername();
             social = true;
@@ -94,7 +95,7 @@ public class MainController {
             Optional<Member> findMember = memberRepository.findByUsername(findName);
             member = findMember.get();
 
-        // 소셜 사용자
+            // 소셜 사용자
         } else {
             member = result.get();
         }
@@ -120,6 +121,16 @@ public class MainController {
         model.addAttribute("contents", contents);
         model.addAttribute("interestName", interestDTO.getInterest());
         return "category_interest";
+    }
+
+    // 검색
+    @GetMapping("/search")
+    public String search(Model model, SearchDTO dto) {
+        log.info("검색어 : " + dto.getSearch());
+        List<Content> result = contentService.findBySearch(dto.getSearch());
+        System.out.println(dto.getSearch());
+        model.addAttribute("result", result);
+        return "search";
     }
 
     // 플레이 화면으로 이동
@@ -178,6 +189,7 @@ public class MainController {
                 .nickname(member.getNickname())
                 .cid(content.getCid())
                 .contentName(content.getOriginalName())
+                .imgOriginalName(content.getImgOriginalName())
                 .likeCount(likeCount)
                 .likeCheck(likeCheck)
                 .build();

@@ -1,21 +1,39 @@
 <!DOCTYPE html>
-<html lang="kr" xmlns:th="https://www.thymeleaf.org">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/components/header_category/main_breath.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/components/header_category/main_breath.css}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, 
   maximum-scale=1.0, minimum-scale=1.0">
     <title>G-Coach</title>
+    <script language="JavaScript">
+        function submit() {
+            with (document.searchForm) {
+                if (inputSearch.value.length == 0) {
+                    alert("검색어를 입력해 주세요!!");
+                    inputSearch.focus();
+                    return false;
+                }
+                document.searchForm.submit();
+
+            }
+        }
+    </script>
 </head>
 <body>
     <header class="main-header">
         <div class="main-header__left">
             <span><a href="sidebar.html"><i class="fas fa-bars fa-sm"></i></a></span>
-            <img src="/images/logo.png">
+            <img th:src="@{/images/logo.png}">
         </div>
-        <a class="main-header__right" href="search.html"><i class="fas fa-search"></i></a>
+        <div class="main-header__right">
+            <form th:action="@{/search}" th:method="get" th:object="${searchDTO}">
+                <input class="main-header__right-input" name="search" type="text" placeholder="검색어를 입력해주세요.">
+                <button class="main-header__right-icon" name="" type="submit" value=""><i class="fas fa-search"></i></button>
+            </form>
+        </div>
     </header>
 
     <nav class="navbar">
@@ -39,7 +57,7 @@
             <a th:href="@{/{id}/play (id=${content.cid})}"><div class="main-screen__content">
                 <div class="main-screen__content-column">
                     <div class="main-screen__thumbnail">
-                        <img src="/images/thumbnail_example.jpg" alt="">
+                        <img th:src="@{'/stream/' + ${content.imgOriginalName}}" alt="">
                     </div>
                 </div>
                 <div class="main-screen__content-column">
@@ -59,6 +77,6 @@
         <a href="#"><p class="footer__text">청소년 보호정책</p></a>
     </footer>
 
+    <script th:src="@{https://kit.fontawesome.com/d1dbd1f9d9.js}" crossorigin="anonymous"></script>
 </body>
-<script src="https://kit.fontawesome.com/d1dbd1f9d9.js" crossorigin="anonymous"></script>
 </html>

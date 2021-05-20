@@ -1,12 +1,14 @@
-<html xmlns:th="https://www.thymeleaf.org">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>파일 업로드</title>
+</head>
 <body>
-
 <div th:if="${message}">
-    <h2 th:text="${message}"/>
+    <h2 th:text="${message}"></h2>
 </div>
-
 <div>
-    <form method="POST" enctype="multipart/form-data" th:object="${contentUploadForm}" action="/uploadForm">
+    <form th:action="@{/uploadForm}" th:method="POST" enctype="multipart/form-data" th:object="${contentUploadDTO}" >
         <table>
             <tr><td>제목</td><td><input type="text" name="title"></td></tr>
             <tr><td>카테고리1</td><td><select name="category1">
@@ -97,18 +99,10 @@
                 <option value="asmr">asmr</option>
             </select></td></tr>
             <tr><td>file</td><td><input type="file" name="file" /></td></tr>
+            <tr><td>img</td><td><input type="file" name="img" /></td></tr>
             <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
         </table>
     </form>
 </div>
-
-<div>
-    <ul>
-        <li th:each="file : ${files}">
-            <a th:href="${file}" th:text="${file}" />
-        </li>
-    </ul>
-</div>
-
 </body>
 </html>

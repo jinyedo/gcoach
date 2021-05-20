@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" th:href="@{/css/components/header_category/main_recommend.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/components/header_category/main_breath.css}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, 
@@ -30,7 +30,7 @@
         </div>
 
         <div class="main-header__right">
-            <form th:action="@{/search}" th:method="get" th:object="${searchDTO}">
+            <form th:action="@{/search}" th:method="get">
                 <input class="main-header__right-input" name="search" type="text" placeholder="검색어를 입력해주세요.">
                 <button class="main-header__right-icon" name="" type="submit" value=""><i class="fas fa-search"></i></button>
             </form>
@@ -50,23 +50,23 @@
         <div class="main-screen__container">
             <!--더보기-->
             <div class="main-screen__header">
-                <span>추천 콘텐츠</span>
-                <!--                <form action="/plus_main.html"><input type="submit" value="+ 더보기" /></form>-->
+                <span>검색 결과</span>
+<!--                <form action="/plus_main.html"><input type="submit" value="+ 더보기" /></form>-->
             </div>
             <!--콘텐츠-->
-            <div th:each="content : ${contents}">
-                <a th:href="@{/{id}/play (id=${content.cid})}"><div class="main-screen__content">
-                    <div class="main-screen__content-column">
-                        <div class="main-screen__thumbnail">
-                            <img th:src="@{'/stream/' + ${content.imgOriginalName}}" alt="">
-                        </div>
+            <div th:each="result : ${result}">
+            <a th:href="@{/{id}/play (id=${result.cid})}"><div class="main-screen__content">
+                <div class="main-screen__content-column">
+                    <div class="main-screen__thumbnail">
+                        <img th:src="@{'/stream/' + ${result.imgOriginalName}}" alt="">
                     </div>
-                    <div class="main-screen__content-column">
-                        <h5 class="main-screen__content-title" th:text="${content.title}">동영상제목</h5>
-                        <h6 class="main-screen__content-text">동영상내용입니다.</h6>
-                        <h6 class="main-screen__content-hashtag">#해시태그 #동영상 #기초</h6>
-                    </div>
-                </div></a>
+                </div>
+                <div class="main-screen__content-column">
+                    <h5 class="main-screen__content-title" th:text="${result.title}">동영상제목</h5>
+                    <h6 class="main-screen__content-text">동영상내용입니다.</h6>
+                    <h6 class="main-screen__content-hashtag">#해시태그 #동영상 #기초</h6>
+                </div>
+            </div></a>
             </div>
         </div>
     </main>

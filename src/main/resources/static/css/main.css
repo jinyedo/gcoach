@@ -40,6 +40,7 @@
 }
 
 .main-screen__thumbnail img {
+    width: 207px;
     height: 120px;
 }
 
