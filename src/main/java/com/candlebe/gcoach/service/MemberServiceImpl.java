@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
                     .emotion(member.getEmotion())
                     .checkLogin(true)
                     .build();
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             return MemberDTO.builder().build();
         }
 

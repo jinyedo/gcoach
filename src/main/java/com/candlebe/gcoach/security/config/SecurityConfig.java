@@ -57,14 +57,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/choice/interest", true);
 //                .successHandler(loginSuccessHandler());
 
-        http.csrf().disable(); // CSRF 토큰을 발해하지 않도록 지정
-        http.logout(); // 로그아웃 설정
-
         // 자동 로그인 설정
         http.rememberMe()
                 .key("autoLoginToken")
                 .tokenValiditySeconds(60*60*7).userDetailsService(memberUserDetailsService) // 7일
                 .rememberMeParameter("auto-login")
                 .rememberMeCookieName("remember-me");
+
+        // 로그아웃 설정
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
+
+        http.csrf().disable(); // CSRF 토큰을 발해하지 않도록 지정
     }
 }

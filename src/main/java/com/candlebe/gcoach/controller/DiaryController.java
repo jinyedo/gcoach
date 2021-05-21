@@ -9,6 +9,7 @@ import com.candlebe.gcoach.security.dto.AuthMemberDTO;
 import com.candlebe.gcoach.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,16 +20,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @Log4j2
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('USER')")
 public class DiaryController {
 
     private final DiaryService diaryService;
-    private final DiaryRepository diaryRepository;
     private final MemberRepository memberRepository;
 
     // 달력
     @GetMapping("/diary/calendar")
     public String calendar() {
-
         return "diary_calendar";
     }
 
