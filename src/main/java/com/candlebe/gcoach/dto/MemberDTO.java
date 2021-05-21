@@ -45,4 +45,6 @@ public class MemberDTO{
     private String emotion; // 감정
 
     private String interest; // 관심사
+
+    private boolean checkLogin;
 }

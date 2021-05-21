@@ -4,6 +4,7 @@ import com.candlebe.gcoach.dto.MemberDTO;
 import com.candlebe.gcoach.entity.Member;
 import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.security.dto.AuthMemberDTO;
+import com.candlebe.gcoach.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,12 +32,13 @@ public class ProfileController {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
 /* 프로필 메인 페이지 */
     @GetMapping("/profile_main")
     public void getProfile(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) {
         log.info("getProfile_main..........");
-        MemberDTO memberDTO = authMemberDtoToMemberDto(authMemberDTO);
+        MemberDTO memberDTO = memberService.authMemberDtoToMemberDto(authMemberDTO);
         model.addAttribute("memberDTO", memberDTO);
     }
 /* ***** */
@@ -174,23 +176,6 @@ public class ProfileController {
         return "profile_main";
     }
 /* ***** */
-
-
-    private MemberDTO authMemberDtoToMemberDto(@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
-        return MemberDTO.builder()
-                .username(member.getUsername())
-                .password(member.getPassword())
-                .nickname(member.getNickname())
-                .name(member.getName())
-                .phone(member.getPhone())
-                .formSocial(member.isFormSocial())
-                .socialType(member.getSocialType())
-                .interest(member.getInterest())
-                .emotion(member.getEmotion())
-                .build();
-    }
-
     private MemberDTO entityToDto(Member member) {
         return MemberDTO.builder()
                 .username(member.getUsername())
