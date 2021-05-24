@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @Log4j2
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 public class DiaryController {
 
     private final DiaryService diaryService;
