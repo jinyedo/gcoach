@@ -125,6 +125,7 @@
 </footer>
 
 <script th:src="@{https://kit.fontawesome.com/d1dbd1f9d9.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
 <script th:inline="javascript">
     $(document).ready(function (e) {
         const cid = [[${dto.cid}]];
@@ -222,7 +223,6 @@
     const audioPlay = document.querySelector("#audioPlay");
     console.log(audioPlay.startDate);
 </script>
-<script th:src="@{/js/jquery.min.js}"></script>
 <script th:src="@{/js/sidebar.js}"></script>
 </body>
 </html>

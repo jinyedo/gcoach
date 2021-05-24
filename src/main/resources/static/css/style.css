@@ -45,6 +45,12 @@ a {
     text-decoration: none;
 }
 
+.main-screen {
+    margin-left: 18px;
+    margin-right: 18px;
+    height: 530px;
+}
+
 .serve-screen {
     margin-left: 18px;
     margin-right: 18px;
@@ -58,3 +64,4 @@ a {
     margin-right: 18px;
     margin-bottom: 45px;
 }
+
