@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -61,7 +64,7 @@ public class ContentController {
         log.info("파일 확장자 확인 : " + Arrays.toString(filenameSeparate));
 
         // 확장자 명이 없거나 mp3 형식이 아니라면 예외 발생
-        //if (filenameSeparate.length <= 1 || !filenameSeparate[1].equals("mp3")) throw new RuntimeException("ERROR!!! 파일 형식 오류");
+//        if (filenameSeparate.length <= 1 || !filenameSeparate[1].equals("mp3")) throw new RuntimeException("ERROR!!! 파일 형식 오류");
 
         // 해당 파일이 없을 경우 예외 발생
         File file = new File(path + contentName);

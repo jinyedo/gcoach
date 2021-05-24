@@ -57,7 +57,7 @@ public class ChoiceController {
         if(result) {
             return "redirect:/";
         } else {
-            model.addAttribute("emotionDTD", new EmotionDTO());
+            model.addAttribute("emotionDTO", new EmotionDTO());
             return "choice_emotion";
         }
     }

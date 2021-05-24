@@ -7,15 +7,17 @@ import com.candlebe.gcoach.repository.ContentRepository;
 import com.candlebe.gcoach.repository.LikeRepository;
 import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.service.LikeService;
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Log4j2
 @RequiredArgsConstructor
 public class LikeController {
+
     private final MemberRepository memberRepository;
     private final ContentRepository contentRepository;
     private final LikeRepository likeRepository;

@@ -4,9 +4,6 @@ import com.candlebe.gcoach.dto.MemberDTO;
 import com.candlebe.gcoach.entity.Member;
 import com.candlebe.gcoach.entity.MemberRole;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.Errors;
-
-import java.util.Map;
 
 public interface JoinService {
 
@@ -23,7 +20,7 @@ public interface JoinService {
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .name(dto.getName())
-                .nickname(dto.getNickname())
+                .nickname(dto.getName())
                 .phone(dto.getPhone())
                 .formSocial(false)
                 .build();

@@ -25,4 +25,3 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("DELETE FROM Member m WHERE m.mid = :mid")
     void deleteMember(Long mid);
 }
-

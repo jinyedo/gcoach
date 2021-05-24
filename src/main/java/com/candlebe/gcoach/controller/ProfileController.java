@@ -34,16 +34,16 @@ public class ProfileController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
-/* 프로필 메인 페이지 */
+    /* 프로필 메인 페이지 */
     @GetMapping("/profile_main")
     public void getProfile(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) {
         log.info("getProfile_main..........");
         MemberDTO memberDTO = memberService.authMemberDtoToMemberDto(authMemberDTO);
         model.addAttribute("memberDTO", memberDTO);
     }
-/* ***** */
+    /* ***** */
 
-/* 닉네임 변경 페이지 */
+    /* 닉네임 변경 페이지 */
     @GetMapping("/profile_changeNickname")
     public void getChangeNickname() {
         log.info("getProfile_changeNickname..........");
@@ -81,9 +81,9 @@ public class ProfileController {
             return "profile_main";
         }
     }
-/* ***** */
+    /* ***** */
 
-/* 비밀번호 변경 페이지 */
+    /* 비밀번호 변경 페이지 */
     @GetMapping("/profile_changePassword")
     public void getChangePassword() {
         log.info("getProfile_changePassword..........");
@@ -131,9 +131,9 @@ public class ProfileController {
         log.info("---------------------------------");
         return checkPassword;
     }
-/* ***** */
+    /* ***** */
 
-/* 관심사 변경 페이지 */
+    /* 관심사 변경 페이지 */
     @GetMapping("/profile_changeInterest")
     public void getChangeInterest() {
         log.info("getChangeInterest..........");
@@ -153,9 +153,9 @@ public class ProfileController {
         model.addAttribute("memberDTO", memberDTO);
         return "profile_main";
     }
-/* ***** */
+    /* ***** */
 
-/* 감정 변경 페이지 */
+    /* 감정 변경 페이지 */
     @GetMapping("/profile_changeEmotion")
     public void getChangeEmotion() {
         log.info("getChangeEmotion..........");
@@ -175,7 +175,7 @@ public class ProfileController {
         model.addAttribute("memberDTO", memberDTO);
         return "profile_main";
     }
-/* ***** */
+    /* ***** */
     private MemberDTO entityToDto(Member member) {
         return MemberDTO.builder()
                 .username(member.getUsername())

@@ -1,16 +1,15 @@
-<html lang="ko" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>파일 업로드</title>
-</head>
+<html xmlns:th="https://www.thymeleaf.org">
 <body>
+
 <div th:if="${message}">
-    <h2 th:text="${message}"></h2>
+    <h2 th:text="${message}"/>
 </div>
+
 <div>
-    <form th:action="@{/uploadForm}" th:method="POST" enctype="multipart/form-data" th:object="${contentUploadDTO}" >
+    <form method="POST" enctype="multipart/form-data" th:object="${contentUploadDTO}" action="/uploadForm">
         <table>
             <tr><td>제목</td><td><input type="text" name="title"></td></tr>
+            <tr><td>내용</td><td><input type="text" name="content"></td></tr>
             <tr><td>카테고리1</td><td><select name="category1">
                 <option value="">없음</option>
                 <option value="호흡">호흡</option>

@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -39,7 +37,7 @@ public class LikeServiceImpl implements LikeService {
             contentRepository.save(content);
             return true;
 
-        // 좋아요를 누른적이 있따면 좋아요 취소
+            // 좋아요를 누른적이 있따면 좋아요 취소
         } else {
             Long lid = likeRepository.findLikes(member, content);
             likeRepository.deleteById(lid);

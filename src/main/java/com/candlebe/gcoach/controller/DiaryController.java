@@ -1,12 +1,15 @@
 package com.candlebe.gcoach.controller;
 
-import com.candlebe.gcoach.dto.TodayDTO;
-import com.candlebe.gcoach.dto.TodayReturnEmotionTodaysreviewDTO;
+import com.candlebe.gcoach.dto.EmotionDTO;
+import com.candlebe.gcoach.dto.MemberDTO;
+import com.candlebe.gcoach.dto.TodaysReviewDTO;
+import com.candlebe.gcoach.entity.Diary;
 import com.candlebe.gcoach.entity.Member;
 import com.candlebe.gcoach.repository.DiaryRepository;
 import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.security.dto.AuthMemberDTO;
 import com.candlebe.gcoach.service.DiaryService;
+import com.candlebe.gcoach.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,49 +27,103 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class DiaryController {
 
     private final DiaryService diaryService;
+    private final DiaryRepository diaryRepository;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     // 달력
     @GetMapping("/diary/calendar")
-    public String calendar() {
+    public String calendar(Model model, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+        log.info("diary_calendar....");
+        MemberDTO memberDTO = memberService.authMemberDtoToMemberDto(authMemberDTO);
+        model.addAttribute("memberDTO", memberDTO);
+//        Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
+//        try {
+//            List<Diary> diaries = diaryService.returnDate(member);
+//            int i = 0;
+//            for (Diary diary : diaries) {
+//                model.addAttribute("year" + i, diary.getYear());
+//                model.addAttribute("month" + i, diary.getMonth());
+//                model.addAttribute("date" + i, diary.getDate());
+//                i++;
+//            }
+//        } catch (Exception e) {
+//            System.out.println("다이어리가 없습니다.");
+//        }
+        model.addAttribute("test", "TEST");
         return "diary_calendar";
     }
 
-    // 오늘의 후기
+    // diary_today
     @GetMapping("/diary/today/{year}/{month}/{date}")
     public String today(Model model,
                         @PathVariable("year") String year,
                         @PathVariable("month") String month,
                         @PathVariable("date") String date,
                         @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-
+        log.info("diary_today....");
+        MemberDTO memberDTO = memberService.authMemberDtoToMemberDto(authMemberDTO);
+        model.addAttribute("memberDTO", memberDTO);
         Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
-        model.addAttribute("todayDTO", new TodayDTO());
-        model.addAttribute("year", year);
-        model.addAttribute("month", month);
-        model.addAttribute("date", date);
         try {
-            // 오늘의 후기 작성한거 불러오기
-            TodayReturnEmotionTodaysreviewDTO result = diaryService.getEmotionTodaysreview(year, month, date, member);
-            model.addAttribute("emotion", result.getEmotion());
-            model.addAttribute("todaysReview", result.getTodaysReview());
+            Diary diary = diaryRepository.findByDateAndMember(year, month, date, member).get(0);
+            model.addAttribute("emotion", diary.getEmotion());
+            model.addAttribute("todaysReview", diary.getTodaysReview());
         } catch (Exception e) {
-            System.out.println("오늘의 후기 작성 안되어 있으면 그냥 페이지 열어라.");
+            System.out.println("Diary not found");
         } finally {
             return "diary_today";
         }
     }
 
+    // save today's review
     @PostMapping("/diary/today/{year}/{month}/{date}")
-    public String saveToday(Model model, TodayDTO todayDTO,
-                            @PathVariable("year") String year,
-                            @PathVariable("month") String month,
-                            @PathVariable("date") String date,
-                            @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+    public String saveTodaysReview(TodaysReviewDTO todaysReviewDTO,
+                                   @PathVariable("year") String year,
+                                   @PathVariable("month") String month,
+                                   @PathVariable("date") String date,
+                                   @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+        log.info("[save] diary_today_review....");
         Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
 
-        diaryService.save(todayDTO.getEmotion(), todayDTO.getTodaysReview(), member, year, month, date);
+        boolean isDiaryEmpty = diaryService.isDiaryEmpty(year, month, date, member);
+        if (isDiaryEmpty) {
+            diaryService.saveTodaysReview(todaysReviewDTO.getTodaysReview(), member, year, month, date);
+        } else {
+            diaryService.setTodaysReview(todaysReviewDTO.getTodaysReview(), member, year, month, date);
+        }
+
         return "redirect:/diary/today/{year}/{month}/{date}";
     }
 
+    // diary_today_emotion
+    @GetMapping("/diary/today/{year}/{month}/{date}/emotion")
+    public String todayEmotion(Model model,
+                                     @PathVariable("year") String year,
+                                     @PathVariable("month") String month,
+                                     @PathVariable("date") String date) {
+        log.info("diary_today_emotion....");
+
+        model.addAttribute("emotionDTO", new EmotionDTO());
+        return "diary_today_emotion";
+    }
+    // save today_emotion
+    @PostMapping("/diary/today/{year}/{month}/{date}/emotion")
+    public String saveTodayEmotion(EmotionDTO emotionDTO,
+                                 @PathVariable("year") String year,
+                                 @PathVariable("month") String month,
+                                 @PathVariable("date") String date,
+                                 @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+        log.info("[save] diary_today_emotion....");
+
+        Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
+
+        boolean isDiaryEmpty = diaryService.isDiaryEmpty(year, month, date, member);
+        if (isDiaryEmpty) {
+            diaryService.saveTodayEmotion(emotionDTO.getEmotion(), member, year, month, date);
+        } else {
+            diaryService.setTodayEmotion(emotionDTO.getEmotion(), member, year, month, date);
+        }
+        return "redirect:/diary/today/{year}/{month}/{date}";
+    }
 }

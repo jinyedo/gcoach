@@ -10,7 +10,9 @@
 </head>
 <body>
 <div class="G-COACH__title-s">
-    <img th:src="@{images/logo.png}">
+    <a th:href="@{/}">
+        <img th:src="@{/images/logo.png}">
+    </a>
 </div>
 
 <main class="serve-screen">
@@ -48,7 +50,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger deleteBtn" id="deleteBtn">Delete</button>
+                    <button type="button" class="btn btn-danger deleteBtn" id="deleteBtn" style="opacity: 0.5">Delete</button>
                 </div>
             </div>
         </div>
@@ -68,27 +70,22 @@
     const deleteAccount_form = document.deleteAccount_form;
     const modal = $(".modal");
     const confirmText = $("input[name='confirmText']");
-    let check = false;
 
     $(".showModalBtn").click(function () {
         confirmText.val("");
         modal.modal("show");
-        deleteBtnNone();
     });
 
+    let check = false;
     confirmText.blur(function (){
-        deleteBtnNone();
-    })
-
-    function deleteBtnNone() {
         if (confirmText.val() !== "" && confirmText.val() === "삭제하겠습니다") {
             document.getElementById("deleteBtn").style.opacity = "1";
             check = true;
-        } else if (confirmText.val() === "" || confirmText.val().length === 0) {
+        } else {
             document.getElementById("deleteBtn").style.opacity = "0.5";
             check = false;
         }
-    }
+    })
 
     $(".deleteBtn").click(function () {
         if (check) {

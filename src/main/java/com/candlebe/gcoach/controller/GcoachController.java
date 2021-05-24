@@ -9,8 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.validation.Valid;
 
 @Controller
@@ -22,13 +26,13 @@ public class GcoachController {
     private final JoinService joinService;
 
     @GetMapping("/test")
-    public void testPage() {
+    public void testPage(){
         log.info("testPage..........");
     }
 
     @GetMapping("/login")
-    public void getLogin() {
-        log.info("getLogin..........");
+    public void login() {
+        log.info("login..........");
     }
 
     @PostMapping("/login")
@@ -57,15 +61,19 @@ public class GcoachController {
     }
 
     @GetMapping("/join")
-    public String getJoin(MemberDTO memberDTO) {
-        log.info("getJoin..........");
-        return "join";
+    public String join(MemberDTO memberDTO) {
+        log.info("join..........");
+        return "/join";
     }
 
     @PostMapping("/join")
-    public String postJoin(@Valid MemberDTO memberDTO, Errors errors, Model model, RedirectAttributes redirectAttributes) {
-        log.info("postJoin..........");
-        log.info("회원정보 : " + memberDTO);
+    public String join(@Valid MemberDTO memberDTO, Errors errors, Model model, RedirectAttributes redirectAttributes) {
+        log.info("----------회원가입----------");
+        log.info("아이디 : " + memberDTO.getUsername());
+        log.info("비밀번호 : " + memberDTO.getPassword());
+        log.info("비밀번호 확인 : " + memberDTO.getConfirmPassword());
+        log.info("이름 : " + memberDTO.getName());
+        log.info("휴대폰 : " + memberDTO.getPhone());
 
         if (errors.hasErrors()) {
             // 회원가입 실패시, 입력 데이터를 유지
@@ -77,7 +85,7 @@ public class GcoachController {
             }
             log.info("----------------------------");
 
-            return "join";
+            return "/join";
         }
 
         String result = joinService.join(memberDTO);
