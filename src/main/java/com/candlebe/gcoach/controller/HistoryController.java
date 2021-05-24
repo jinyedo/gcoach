@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 @Log4j2
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+@PreAuthorize("hasRole('USER')")
 public class HistoryController {
 
     private final MemberRepository memberRepository;

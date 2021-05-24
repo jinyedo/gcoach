@@ -17,6 +17,23 @@
 @import "setting.css";
 @import "delete.css";
 
+/***screen***/
+@import "login.css";
+@import "find.css";
+@import "join.css";
+@import "main.css";
+@import "choice.css";
+@import "nickname.css";
+@import "start.css";
+@import "play.css";
+@import "diary.css";
+@import "profile.css";
+@import "change.css";
+@import "history.css";
+@import "setting.css";
+@import "delete.css";
+@import "search.css";
+
 
 /***component***/
 @import "./components/logo.css";
@@ -24,7 +41,6 @@
 @import "./components/nav.css";
 @import "./components/footer.css";
 @import "./components/header-icon.css";
-@import "./components/search.css";
 
 /*********/
 body {
@@ -64,4 +80,3 @@ a {
     margin-right: 18px;
     margin-bottom: 45px;
 }
-

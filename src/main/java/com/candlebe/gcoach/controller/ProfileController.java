@@ -27,7 +27,7 @@ import javax.validation.Valid;
 @Controller
 @Log4j2
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+@PreAuthorize("hasRole('USER')")
 public class ProfileController {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

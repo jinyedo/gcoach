@@ -109,7 +109,7 @@ public class MainController {
     }
 
     // 플레이 화면으로 이동
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}/play")
     public String getPlay(@AuthenticationPrincipal AuthMemberDTO authMemberDTO,
                           @PathVariable("id") Long id, Model model) throws JsonProcessingException {

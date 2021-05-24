@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @Log4j2
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+@PreAuthorize("hasRole('USER')")
 public class ChoiceController {
 
     private final ChoiceInterestService choiceInterestService;
