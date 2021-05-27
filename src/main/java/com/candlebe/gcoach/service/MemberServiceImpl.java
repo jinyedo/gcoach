@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,10 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
+    }
 
     @Override
     public String checkNickname(String nickname) {

@@ -21,7 +21,7 @@
         <a th:href="@{/}" class="member-page">
             <h1>회원 관리</h1>
         </a>
-        <a th:href="@{/}" class="contents-page">
+        <a th:href="@{/admin/contents}" class="contents-page">
             <h1>콘텐츠 관리</h1>
         </a>
         <a th:href="@{/admin/contents/upload}" class="upload-page">
@@ -29,6 +29,9 @@
         </a>
     </header>
     <h1 class="form-title">G-COACH에 콘텐츠를 업로드해주세요.</h1>
+    <div th:if="${message}">
+        <h1 th:text="${message}"/>
+    </div>
     <!--
     <h1 class="form-title">G-COACH에 콘텐츠가 성공적으로 업로드 되었습니다!</h1>
     -->
@@ -162,9 +165,6 @@
             </tr>
         </table>
     </form>
-    <div th:if="${message}">
-        <h1 th:text="${message}"/>
-    </div>
 </body>
 <script>
     const reader = new FileReader();

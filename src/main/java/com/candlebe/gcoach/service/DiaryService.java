@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class DiaryService {
@@ -69,7 +67,4 @@ public class DiaryService {
         return diary.getId();
     }
 
-    public List<Diary> returnDate(Member member) {
-        return diaryRepository.findByMember(member);
-    }
 }

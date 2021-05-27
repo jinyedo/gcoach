@@ -37,20 +37,7 @@ public class DiaryController {
         log.info("diary_calendar....");
         MemberDTO memberDTO = memberService.authMemberDtoToMemberDto(authMemberDTO);
         model.addAttribute("memberDTO", memberDTO);
-//        Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
-//        try {
-//            List<Diary> diaries = diaryService.returnDate(member);
-//            int i = 0;
-//            for (Diary diary : diaries) {
-//                model.addAttribute("year" + i, diary.getYear());
-//                model.addAttribute("month" + i, diary.getMonth());
-//                model.addAttribute("date" + i, diary.getDate());
-//                i++;
-//            }
-//        } catch (Exception e) {
-//            System.out.println("다이어리가 없습니다.");
-//        }
-        model.addAttribute("test", "TEST");
+
         return "diary_calendar";
     }
 
