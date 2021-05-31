@@ -28,36 +28,40 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String checkNickname(String nickname) {
         Optional<Member> result =  memberRepository.findMemberByNickname(nickname);
-        if (result.isEmpty()) {
-            return "success";
-        } else {
+        if (result.isPresent()) {
             return "fail";
+        } else {
+            return "success";
         }
     }
 
     public MemberDTO authMemberDtoToMemberDto(@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         try {
-            Member member = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial()).orElseThrow();
-            MemberDTO memberDTO = MemberDTO.builder()
-                    .username(member.getUsername())
-                    .password(member.getPassword())
-                    .nickname(member.getNickname())
-                    .name(member.getName())
-                    .phone(member.getPhone())
-                    .formSocial(member.isFormSocial())
-                    .socialType(member.getSocialType())
-                    .interest(member.getInterest())
-                    .emotion(member.getEmotion())
-                    .checkLogin(true)
-                    .build();
+            Optional<Member> members = memberRepository.findByUsername(authMemberDTO.getUsername(), authMemberDTO.isFormSocial());
+            if (members.isPresent()) {
+                Member member = members.get();
+                MemberDTO memberDTO = MemberDTO.builder()
+                        .username(member.getUsername())
+                        .password(member.getPassword())
+                        .nickname(member.getNickname())
+                        .name(member.getName())
+                        .phone(member.getPhone())
+                        .formSocial(member.isFormSocial())
+                        .socialType(member.getSocialType())
+                        .interest(member.getInterest())
+                        .emotion(member.getEmotion())
+                        .checkLogin(true)
+                        .build();
 
-            Iterator<MemberRole> it = member.getRoleSet().iterator();
-            if(it.hasNext()) {
-                if (it.next().toString().equals("ADMIN")) {
-                    memberDTO.setAdmin(true);
+                Iterator<MemberRole> it = member.getRoleSet().iterator();
+                if(it.hasNext()) {
+                    if (it.next().toString().equals("ADMIN")) {
+                        memberDTO.setAdmin(true);
+                    }
                 }
+                return memberDTO;
             }
-            return memberDTO;
+            return MemberDTO.builder().build();
         } catch (Exception e) {
             return MemberDTO.builder().build();
         }

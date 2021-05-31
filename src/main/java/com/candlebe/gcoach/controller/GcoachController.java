@@ -1,10 +1,14 @@
 package com.candlebe.gcoach.controller;
 
 import com.candlebe.gcoach.dto.MemberDTO;
+import com.candlebe.gcoach.entity.Member;
+import com.candlebe.gcoach.entity.MemberRole;
+import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.service.JoinService;
 import com.candlebe.gcoach.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,8 +26,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class GcoachController {
 
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final JoinService joinService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/test")
     public void testPage(){
@@ -63,7 +69,7 @@ public class GcoachController {
     @GetMapping("/join")
     public String join(MemberDTO memberDTO) {
         log.info("join..........");
-        return "join";
+        return "/join";
     }
 
     @PostMapping("/join")
@@ -85,7 +91,7 @@ public class GcoachController {
             }
             log.info("----------------------------");
 
-            return "join";
+            return "/join";
         }
 
         String result = joinService.join(memberDTO);
@@ -97,6 +103,20 @@ public class GcoachController {
             redirectAttributes.addFlashAttribute("msg", "회원가입 성공");
             return "redirect:/login";
         }
+        return "redirect:/login";
+    }
+
+    @GetMapping("/createAdmin")
+    public String createAdmin() {
+        Member member = Member.builder()
+                .username("admin")
+                .password(passwordEncoder.encode("1111"))
+                .name("관리자1")
+                .nickname("관리자1")
+                .phone("01012345678")
+                .build();
+        member.addMemberRole(MemberRole.ADMIN);
+        memberRepository.save(member);
         return "redirect:/login";
     }
 }

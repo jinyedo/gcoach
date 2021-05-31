@@ -90,8 +90,7 @@ public class AdminController {
                                    ContentUploadDTO dto) {
 
         contentService.save(file, img, dto);
-        redirectAttributes.addFlashAttribute("message",
-                "업로드 성공 :: " + file.getOriginalFilename());
+        redirectAttributes.addFlashAttribute("message", file.getOriginalFilename());
 
         return "redirect:/admin/contents/upload";
     }
