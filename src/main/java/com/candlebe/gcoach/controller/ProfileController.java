@@ -2,6 +2,7 @@ package com.candlebe.gcoach.controller;
 
 import com.candlebe.gcoach.dto.MemberDTO;
 import com.candlebe.gcoach.entity.Member;
+import com.candlebe.gcoach.entity.MemberRole;
 import com.candlebe.gcoach.repository.MemberRepository;
 import com.candlebe.gcoach.security.dto.AuthMemberDTO;
 import com.candlebe.gcoach.service.MemberService;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Iterator;
 import java.util.Optional;
 
 /* 프로필 컨트롤러 */
@@ -194,16 +196,25 @@ public class ProfileController {
     }
     /* ***** */
     private MemberDTO entityToDto(Member member) {
-        return MemberDTO.builder()
+        MemberDTO memberDTO = MemberDTO.builder()
                 .username(member.getUsername())
                 .password(member.getPassword())
-                .name(member.getName())
                 .nickname(member.getNickname())
+                .name(member.getName())
                 .phone(member.getPhone())
                 .formSocial(member.isFormSocial())
                 .socialType(member.getSocialType())
                 .interest(member.getInterest())
                 .emotion(member.getEmotion())
+                .checkLogin(true)
                 .build();
+
+        Iterator<MemberRole> it = member.getRoleSet().iterator();
+        if(it.hasNext()) {
+            if (it.next().toString().equals("ADMIN")) {
+                memberDTO.setAdmin(true);
+            }
+        }
+        return memberDTO;
     }
 }
