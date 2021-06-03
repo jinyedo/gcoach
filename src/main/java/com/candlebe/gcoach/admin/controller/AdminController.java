@@ -1,11 +1,12 @@
-package com.candlebe.gcoach.admin;
+package com.candlebe.gcoach.admin.controller;
 
+import com.candlebe.gcoach.admin.dto.PageRequestDTO;
+import com.candlebe.gcoach.admin.service.AdminService;
 import com.candlebe.gcoach.dto.ContentUploadDTO;
 import com.candlebe.gcoach.entity.Content;
 import com.candlebe.gcoach.entity.Member;
 import com.candlebe.gcoach.repository.*;
 import com.candlebe.gcoach.service.ContentService;
-import com.candlebe.gcoach.service.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,24 +29,22 @@ import java.util.List;
 public class AdminController {
 
     private final ContentService contentService;
-    private final MemberServiceImpl memberService;
     private final MemberRepository memberRepository;
     private final HistoryRepository historyRepository;
     private final LikeRepository likeRepository;
     private final ReplyRepository replyRepository;
     private final DiaryRepository diaryRepository;
+    private final AdminService adminService;
 
     //members
     @GetMapping("/admin/members")
-    public String adminMembers(Model model) {
-        List<Member> members = memberService.findMembers();
-        model.addAttribute("members", members);
-
+    public String adminMembers(PageRequestDTO pageRequestDTO, Model model) {
+        model.addAttribute("result", adminService.getList(pageRequestDTO));
         return "admin_member";
     }
     // delete_member
     @PostMapping("/admin/members/{mid}/delete")
-    public String deleteMember(@PathVariable("mid") Long mid) {
+    public String deleteMember(@PathVariable("mid") Long mid, String url) {
         Member member = memberRepository.findById(mid).get();
         historyRepository.deleteHistories(member);
         likeRepository.deleteLikes(member);
@@ -54,8 +53,7 @@ public class AdminController {
         member.getRoleSet().clear();
         memberRepository.save(member);
         memberRepository.deleteMember(member.getMid());
-
-        return "redirect:/admin/members";
+        return "redirect:" + url;
     }
 
     //contents
