@@ -31,11 +31,6 @@ public class GcoachController {
     private final JoinService joinService;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("/test")
-    public void testPage(){
-        log.info("testPage..........");
-    }
-
     @GetMapping("/login")
     public void login() {
         log.info("login..........");
@@ -69,7 +64,7 @@ public class GcoachController {
     @GetMapping("/join")
     public String join(MemberDTO memberDTO) {
         log.info("join..........");
-        return "/join";
+        return "join";
     }
 
     @PostMapping("/join")
@@ -91,7 +86,7 @@ public class GcoachController {
             }
             log.info("----------------------------");
 
-            return "/join";
+            return "join";
         }
 
         String result = joinService.join(memberDTO);
