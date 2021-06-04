@@ -21,10 +21,6 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
-    }
-
     @Override
     public String checkNickname(String nickname) {
         Optional<Member> result =  memberRepository.findMemberByNickname(nickname);
