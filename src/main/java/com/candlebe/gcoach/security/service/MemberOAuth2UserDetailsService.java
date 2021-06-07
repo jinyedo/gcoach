@@ -81,9 +81,12 @@ public class MemberOAuth2UserDetailsService extends DefaultOAuth2UserService {
             return result.get();
         }
 
+        int idx = username.indexOf("@");
+        String nickname = username.substring(0, idx);
+
         Member member = Member.builder()
                 .username(username)
-                .nickname(username)
+                .nickname(nickname)
                 .password(passwordEncoder.encode("1111"))
                 .name(username)
                 .formSocial(true)

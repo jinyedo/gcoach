@@ -139,4 +139,22 @@ public class ContentService {
             throw new StorageException("Could not initialize storage", e);
         }
     }
+
+    // 관리자페이지-콘텐츠관리
+    public List<Content> findContentInAdmin(String category, String search) {
+        if (!category.equals("") && !search.equals("")) {
+            return findByCategoryAndSearch(category, search);
+        } else if (!category.equals("") && search.equals("")) {
+            return findContentsByCategory(category);
+        } else if (category.equals("") && !search.equals("")) {
+            return findBySearch(search);
+        } else {
+            return findContents();
+        }
+    }
+
+    // 카테고리 & 제목으로 검색
+    public List<Content> findByCategoryAndSearch(String category, String search) {
+        return contentRepository.findByCategoryAndSearch(category, search);
+    }
 }

@@ -33,7 +33,6 @@
         <h1>콘텐츠 업로드</h1>
     </a>
 </header>
-
 <div class="top">
     <h1 class="form-title">콘텐츠 관리</h1>
     <form th:action="@{/admin/content}" th:method="get" name="searchForm" id="searchForm">
@@ -85,19 +84,21 @@
         </tr>
         </thead>
         <tbody>
+        <div th:if="contents==null">
+            <h1 class="form-title">G-COACH에 콘텐츠를 업로드해주세요.</h1>
+        </div>
         <tr th:each="content : ${contents}">
             <th th:text="${content.cid}" scope="row"></th>
 
             <!-- 이거 누르면 admin_content_cid.html로 이동-->
-            <!--            마우스 hover하면 I자로 뜨는데 이거 어색하면 변경해줘도 되고! (텍스트 색 변경? 마우스 커서 변경?) -->
-            <td th:onclick="'location.href=\''+ @{/admin/contents/{cid} (cid=${content.cid})} + '\''" th:text="${content.title}" style="color: #005cbf"></td>
+            <td th:onclick="'location.href=\''+ @{/admin/contents/{cid} (cid=${content.cid})} + '\''" th:text="${content.title}"></td>
             <!--                -->
 
             <td th:text="${content.content}"></td>
             <td th:text="${content.category1}"></td>
             <td th:text="${content.category2}"></td>
             <td th:text="${content.category3}"></td>
-            <td><a th:href="'javascript:deleteContent('+${content.cid}+')'" style="color: red">삭제</a></td>
+            <td><a th:href="'javascript:deleteContent('+${content.cid}+')'">삭제</a></td>
         </tr>
         </tbody>
     </table>

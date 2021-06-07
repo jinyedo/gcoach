@@ -20,4 +20,9 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @Transactional
     @Query("DELETE FROM Reply r WHERE r.member = :member")
     void deleteReplies(Member member);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Reply r WHERE r.content = :content")
+    void deleteReplies(Content content);
 }

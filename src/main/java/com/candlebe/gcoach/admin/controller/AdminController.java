@@ -1,5 +1,6 @@
 package com.candlebe.gcoach.admin.controller;
 
+import com.candlebe.gcoach.admin.SearchContent;
 import com.candlebe.gcoach.admin.dto.PageRequestDTO;
 import com.candlebe.gcoach.admin.service.AdminService;
 import com.candlebe.gcoach.dto.ContentUploadDTO;
@@ -12,10 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -65,12 +63,37 @@ public class AdminController {
         return "admin_content";
     }
 
+    //search content
+    @GetMapping("/admin/content")
+    public String searchContents(@ModelAttribute("searchContent") SearchContent searchContent, Model model) {
+        try {
+            List<Content> contents = contentService.findContentInAdmin(searchContent.getCategory(), searchContent.getSearch());
+            model.addAttribute("contents", contents);
+        } catch (Exception e) {
+            return "redirect:/admin/content/upload";
+        }
+        return "admin_content_search";
+    }
+
     // delete_content
     @PostMapping("/admin/contents/{cid}/delete")
-    public String deleteContent(@PathVariable("cid") Long cid) {
+    public String deleteContent( @PathVariable("cid") Long cid) {
+        Content content = contentService.findOne(cid).get();
+        historyRepository.deleteHistories(content);
+        likeRepository.deleteLikes(content);
+        replyRepository.deleteReplies(content);
         contentService.deleteContent(cid);
-
         return "redirect:/admin/contents";
+    }
+
+    //content
+    @GetMapping("/admin/contents/{cid}")
+    public String selectContent(@PathVariable("cid") Long cid, Model model) {
+        Content content = contentService.findOne(cid).get();
+
+        model.addAttribute("content", content);
+
+        return "admin_content_cid";
     }
 
     //upload
