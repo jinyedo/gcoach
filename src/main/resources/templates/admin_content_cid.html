@@ -12,16 +12,14 @@
 <body>
 <header>
     <a th:href="@{/}"><img th:src="@{/images/logo_white.png}" /></a>
-    <a th:href="@{/admin/members}" class="member-page">
-        <h1>회원 관리</h1>
-    </a>
     <a th:href="@{/admin/contents}" class="contents-page">
         <h1>콘텐츠 관리</h1>
     </a>
-
-    <!--        업로드폼 복붙해서 헤더에 콘텐츠 업로드 글씨가 하얗다.. 이거 회색으로 변경!!!-->
     <a th:href="@{/admin/contents/upload}" class="upload-page">
         <h1>콘텐츠 업로드</h1>
+    </a>
+    <a th:href="@{/admin/members}" class="member-page">
+        <h1>회원 관리</h1>
     </a>
 </header>
 <div class="top">
