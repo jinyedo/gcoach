@@ -14,7 +14,7 @@ import java.util.List;
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
-    List<Reply> findByContent(Content content);
+    List<Reply> findByContentOrderByRidDesc(Content content);
 
     @Modifying
     @Transactional
