@@ -85,6 +85,7 @@ public class GcoachController {
         log.info("비밀번호 : " + memberDTO.getPassword());
         log.info("비밀번호 확인 : " + memberDTO.getConfirmPassword());
         log.info("이름 : " + memberDTO.getName());
+        log.info("닉네임 : " + memberDTO.getNickname());
         log.info("휴대폰 : " + memberDTO.getPhone());
 
         if (errors.hasErrors()) {
