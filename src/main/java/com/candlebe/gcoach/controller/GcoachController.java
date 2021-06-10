@@ -48,8 +48,8 @@ public class GcoachController {
     }
 
     @PostMapping("/login")
-    public void postLogin() {
-        log.info("postLogin..........");
+    public String postLogin() {
+        return "login";
     }
 
     @RequestMapping("/checkUsername")
