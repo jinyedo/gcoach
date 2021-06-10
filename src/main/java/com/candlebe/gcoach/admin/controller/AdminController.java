@@ -1,6 +1,5 @@
 package com.candlebe.gcoach.admin.controller;
 
-import com.candlebe.gcoach.admin.SearchContent;
 import com.candlebe.gcoach.admin.dto.PageRequestDTO;
 import com.candlebe.gcoach.admin.service.AdminService;
 import com.candlebe.gcoach.dto.ContentUploadDTO;
@@ -37,7 +36,7 @@ public class AdminController {
     //members
     @GetMapping("/admin/members")
     public String adminMembers(PageRequestDTO pageRequestDTO, Model model) {
-        model.addAttribute("result", adminService.getList(pageRequestDTO));
+        model.addAttribute("result", adminService.getMemberList(pageRequestDTO));
         return "admin_member";
     }
     // delete_member
@@ -54,36 +53,22 @@ public class AdminController {
         return "redirect:" + url;
     }
 
-    //contents
+    // contents
     @GetMapping("/admin/contents")
-    public String adminContents(Model model) {
-        List<Content> contents = contentService.findContents();
-        model.addAttribute("contents", contents);
-
+    public String searchContents(PageRequestDTO pageRequestDTO, Model model) {
+        model.addAttribute("result", adminService.getContentList(pageRequestDTO));
         return "admin_content";
-    }
-
-    //search content
-    @GetMapping("/admin/content")
-    public String searchContents(@ModelAttribute("searchContent") SearchContent searchContent, Model model) {
-        try {
-            List<Content> contents = contentService.findContentInAdmin(searchContent.getCategory(), searchContent.getSearch());
-            model.addAttribute("contents", contents);
-        } catch (Exception e) {
-            return "redirect:/admin/content/upload";
-        }
-        return "admin_content_search";
     }
 
     // delete_content
     @PostMapping("/admin/contents/{cid}/delete")
-    public String deleteContent( @PathVariable("cid") Long cid) {
+    public String deleteContent( @PathVariable("cid") Long cid, String url) {
         Content content = contentService.findOne(cid).get();
         historyRepository.deleteHistories(content);
         likeRepository.deleteLikes(content);
         replyRepository.deleteReplies(content);
         contentService.deleteContent(cid);
-        return "redirect:/admin/contents";
+        return "redirect:" + url;
     }
 
     //content

@@ -1,6 +1,8 @@
 package com.candlebe.gcoach.repository.search;
 
+import com.candlebe.gcoach.entity.Content;
 import com.candlebe.gcoach.entity.Member;
+import com.candlebe.gcoach.entity.QContent;
 import com.candlebe.gcoach.entity.QMember;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
@@ -20,52 +22,39 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Log4j2
-public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implements SearchMemberRepository {
-    public SearchMemberRepositoryImpl() {
-        super(Member.class);
+public class SearchContentRepositoryImpl extends QuerydslRepositorySupport implements SearchContentRepository {
+
+    QContent content = QContent.content1;
+
+    public SearchContentRepositoryImpl() {
+        super(Content.class);
     }
 
     @Override
     public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
         log.info("searchPage....................");
+        log.info("category : " + type + " | keyword : " + keyword);
 
-        // 동적으로 처리하기 위해 Q 도매인 클래스 가져오기
-        QMember member = QMember.member;
-
-        JPQLQuery<Member> jpqlQuery = from(member).select(member);
+        JPQLQuery<Content> jpqlQuery = from(content);
         JPQLQuery<Tuple> tuple = jpqlQuery.select(
-                member.mid,
-                member.username,
-                member.name,
-                member.nickname,
-                member.phone,
-                member.emotion,
-                member.interest,
-                member.socialType);
+                content.cid,
+                content.title,
+                content.content,
+                content.category1,
+                content.category2,
+                content.category3
+        );
         BooleanBuilder booleanBuilder = new BooleanBuilder(); // where 문에 들어가는 조건을 넣어주는 컨테이너
-        BooleanExpression expression = member.mid.gt(0L);
+        BooleanExpression expression = content.cid.gt(0L); // bno > 0 조건만 생성
 
         booleanBuilder.and(expression);
 
         if (type != null) {
-            String[] typeArr = type.split(""); // 문자열을 나눠 배열로 저장
             BooleanBuilder conditionBuilder = new BooleanBuilder();
-            for (String t : typeArr) {
-                switch (t) {
-                    case "i":
-                        conditionBuilder.or(member.username.contains(keyword));
-                        break;
-                    case "n":
-                        conditionBuilder.or(member.name.contains(keyword));
-                        break;
-                    case "ni":
-                        conditionBuilder.or(member.nickname.contains(keyword));
-                        break;
-                    case "p":
-                        conditionBuilder.or(member.phone.contains(keyword));
-                        break;
-                }
-            }
+            conditionBuilder.or(content.category1.contains(type));
+            conditionBuilder.or(content.category2.contains(type));
+            conditionBuilder.or(content.category3.contains(type));
+            conditionBuilder.and(content.title.contains(keyword));
             booleanBuilder.and(conditionBuilder);
         }
 
@@ -80,7 +69,7 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
             Order direction = order.isAscending() ? Order.ASC : Order.DESC;
             String prop = order.getProperty();
 
-            PathBuilder orderByExpression = new PathBuilder(Member.class, "member1");
+            PathBuilder orderByExpression = new PathBuilder(Content.class, "content1");
             jpqlQuery.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
         });
         /* ----- */
@@ -103,10 +92,3 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
         );
     }
 }
-
-
-
-
-
-
-
