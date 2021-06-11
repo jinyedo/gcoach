@@ -95,7 +95,7 @@
                             <span th:if="${(history.content.getCategory2()!=null) && (history.content.getCategory2()!='')}" th:text="'#'+${history.content.getCategory2()}+' '"></span>
                             <span th:if="${(history.content.getCategory3()!=null) && (history.content.getCategory3()!='')}" th:text="'#'+${history.content.getCategory3()}+' '"></span>
                         </h6>
-                        <h6 class="main-screen__content-text">[[${#temporals.format(history.regDate, 'yyyy/MM/dd kk:mm:ss')}]]</h6>
+                        <h6 class="main-screen__content-text">[[${#temporals.format(history.regDate, 'yyyy.MM.dd kk:mm:ss')}]]</h6>
                     </div>
                 </div>
             </div>
