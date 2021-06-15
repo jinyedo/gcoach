@@ -32,7 +32,6 @@ public class LikeServiceImpl implements LikeService {
                     .member(member)
                     .content(content)
                     .build();
-
             // 좋아요를 누른적이 없다면 좋아요 추가
             if(!isNotAlreadyLike(member, content)) {
                 likeRepository.save(likes);

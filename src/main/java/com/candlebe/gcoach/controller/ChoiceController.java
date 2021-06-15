@@ -35,7 +35,6 @@ public class ChoiceController {
         if (members.isPresent()) {
             Member member = members.get();
             boolean result = choiceInterestService.isInterest(member.getUsername());
-
             if(result) {
                 return "redirect:/";
             } else {
