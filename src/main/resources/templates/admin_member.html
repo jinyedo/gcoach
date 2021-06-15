@@ -58,7 +58,7 @@
       <table class="table table-sm">
         <thead class="thead-dark">
           <tr>
-            <th scope="col" class="th1">번호</th>
+            <th scope="col" class="th1">회원 번호</th>
             <th scope="col" class="th2">아이디</th>
             <th scope="col" class="th3">이름</th>
             <th scope="col" class="th4">닉네임</th>
@@ -71,7 +71,7 @@
         </thead>
         <tbody>
           <tr th:each="dto : ${result.dtoList}">
-            <th th:text="${dto.mid}" scope="row">1</th>
+            <th th:text="${dto.mid}" scope="row"></th>
             <td th:text="${dto.username}"></td>
             <td th:text="${dto.name}"></td>
             <td th:text="${dto.nickname}"></td>
