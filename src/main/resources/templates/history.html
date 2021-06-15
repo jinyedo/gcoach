@@ -95,14 +95,13 @@
                             <span th:if="${(history.content.getCategory2()!=null) && (history.content.getCategory2()!='')}" th:text="'#'+${history.content.getCategory2()}+' '"></span>
                             <span th:if="${(history.content.getCategory3()!=null) && (history.content.getCategory3()!='')}" th:text="'#'+${history.content.getCategory3()}+' '"></span>
                         </h6>
-                        <h6 class="main-screen__content-text">[[${#temporals.format(history.regDate, 'yyyy.MM.dd kk:mm:ss')}]]</h6>
+                        <h6 class="main-screen__content-text">[[${history.time}]]</h6>
                     </div>
                 </div>
             </div>
         </a>
     </th:block>
 </main>
-
 <footer class="main-footer">
     <a href="#"><p class="footer__text">회사소개</p></a>
     <a href="#"><p class="footer__text">개인정보 처리방침</p></a>

@@ -13,6 +13,6 @@ import java.util.List;
 @ToString
 public class HistoryDTO {
 
-    private List<Content> contents;
-    private LocalDateTime time;
+    private Content content;
+    private String time;
 }
